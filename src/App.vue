@@ -1,0 +1,99 @@
+<template>
+  <section id="app" class="main-container">
+    <router-view></router-view>
+  </section>
+</template>
+
+<script>
+export default {
+  name: 'app'
+}
+</script>
+
+<style lang="scss">
+  $dark-primary-color: #303F9F;
+  $default-primary-color: #3F51B5;
+  $light-primary-color: #5C6BC0;
+  $text-primary-color: #FFFFFF;
+  $accent-color: #FF4081;
+  $primary-text-color: #212121;
+  $secondary-text-color: #757575;
+  $divider-color: #BDBDBD;
+
+  #login-page {
+    min-height: 100%;
+    background-color: $dark-primary-color;
+  }
+
+  #login-page .banner img {
+    width: 420px;
+    padding: 120px 0px 60px 0px;
+  }
+
+  @media only screen and (max-width: 768px) {
+    #login-page .banner img {
+      width: 320px;
+    }
+  }
+
+  .form-login h2.form-login-heading {
+    background: $accent-color;
+  }
+
+  .btn-theme {
+    background: $accent-color;
+  }
+
+  .btn-theme:hover {
+    background: $default-primary-color;
+  }
+
+  .modal-header {
+    background: $accent-color;
+  }
+
+  .black-bg {
+    background: $default-primary-color;
+    border-bottom: 1px solid $dark-primary-color;
+  }
+
+  #sidebar {
+    background: $dark-primary-color;
+  }
+
+  .sidebar-toggle-box {
+    color: $accent-color;
+  }
+
+  ul.top-menu > li > .logout {
+    color: #f2f2f2;
+    border: 1px solid $accent-color !important;
+    background: $accent-color;
+  }
+
+  ul.top-menu > li > .home {
+    color: #f2f2f2;
+    border: 1px solid $accent-color !important;
+    background: $accent-color;
+  }
+
+
+  ul.sidebar-menu li a.active, ul.sidebar-menu li a:hover, ul.sidebar-menu li a:focus {
+    background: $accent-color;
+  }
+
+  .site-footer {
+    background: $light-primary-color;
+    color: $primary-text-color;
+  }
+
+  .darkblue-panel {
+    background: #ffffff;
+
+  }
+
+  .darkblue-panel h5 {
+    color: $primary-text-color;
+  }
+
+</style>
