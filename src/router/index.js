@@ -15,7 +15,7 @@ var router = new Router({
       component: Home,
       meta: {auth: true},
       children: [
-        {path: '', component: Dashboard, meta: {auth: false}},
+        {path: '', component: Dashboard, meta: {auth: true}},
         {path: '/maths', component: Math, meta: {auth: false}}
       ]
     },
