@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
 import Login from '@/components/Login'
+import Dashboard from '@/components/Dashboard'
+import Math from '@/components/Math'
 
 Vue.use(Router)
 
@@ -11,7 +13,11 @@ var router = new Router({
       path: '/',
       name: 'Home',
       component: Home,
-      meta: {auth: true}
+      meta: {auth: false},
+      children: [
+        {path: '', component: Dashboard, meta: {auth: false}},
+        {path: '/maths', component: Math, meta: {auth: false}}
+      ]
     },
     {
       path: '/login',
