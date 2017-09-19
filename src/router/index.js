@@ -13,7 +13,7 @@ var router = new Router({
       path: '/',
       name: 'Home',
       component: Home,
-      meta: {auth: false},
+      meta: {auth: true},
       children: [
         {path: '', component: Dashboard, meta: {auth: false}},
         {path: '/maths', component: Math, meta: {auth: false}}
@@ -31,7 +31,7 @@ var router = new Router({
 router.beforeEach(function (to, from, next) {
   console.log('Auth Guard Called!')
 
-  if (to.meta.auth) {
+  if (to.meta.auth && !Vue.isLoggedIn()) {
     next('/login')
   } else {
     next()
