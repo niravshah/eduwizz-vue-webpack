@@ -4,7 +4,7 @@ var User = require('../models/user')
 
 module.exports = function (passport) {
   var opts = {}
-  opts.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme()
+  opts.jwtFromRequest = ExtractJwt.fromAuthHeader()
   opts.secretOrKey = 'shhhhh'
   passport.use(new JwtStrategy(opts, function (jwtPayload, done) {
     var userid = jwtPayload.sid

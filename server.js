@@ -13,13 +13,15 @@ var mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 mongoose.connect(process.env.MONGO_URL, {useMongoClient: true})
 
+app.set('views', path.join(__dirname, './server/views'))
+app.set('view engine', 'ejs')
+
 var passport = require('passport')
 app.use(passport.initialize())
 
-// var initPassport = require('./server/passport/init')
-// initPassport(passport)
+var initPassport = require('./server/passport/init')
+initPassport(passport)
 
-var index = require('./server/routes/index')
 var login = require('./server/routes/api/auth')(passport)
 
 app.use(logger('dev'))
@@ -28,8 +30,13 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use(index)
 app.use(login)
+
+app.use(express.static(path.join(__dirname, 'dist')))
+// Catch all other routes and return the index file
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist/index.html'))
+})
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

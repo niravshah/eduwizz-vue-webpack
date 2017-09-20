@@ -1,17 +1,17 @@
-var express = require('express');
+var express = require('express')
 
-var router = express.Router();
+var router = express.Router()
 
 router.get('/', function (req, res, next) {
-    res.render('index');
-});
+  res.render('index')
+})
 
 router.get('/home', function (req, res) {
-    res.render('index');
-});
+  res.render('index')
+})
 
 router.get('/reset-password', function (req, res) {
-    res.render('reset-password');
-});
+  res.render('reset-password')
+})
 
-module.exports = router;
+module.exports = router
