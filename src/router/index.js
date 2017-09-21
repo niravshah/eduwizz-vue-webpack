@@ -11,11 +11,10 @@ var router = new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
       component: Home,
       meta: {auth: true},
       children: [
-        {path: '', component: Dashboard, meta: {auth: true}},
+        {path: '', name: 'Home', component: Dashboard, meta: {auth: true}},
         {path: '/maths', component: Math, meta: {auth: false}}
       ]
     },

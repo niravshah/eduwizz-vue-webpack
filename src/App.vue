@@ -96,4 +96,68 @@ export default {
     color: $primary-text-color;
   }
 
+  .pt10 {
+    padding-top: 10px;
+  }
+
+  .pt20 {
+    padding-top: 20px;
+  }
+
+  .pt40 {
+    padding-top: 40px;
+  }
+
+  .pt60 {
+    padding-top: 60px;
+  }
+
+  .pt80 {
+    padding-top: 80px;
+  }
+
+  .pb5 {
+    padding-bottom: 5px;
+  }
+
+  .pb10 {
+    padding-bottom: 10px;
+  }
+
+  .pb20 {
+    padding-bottom: 20px;
+  }
+
+  .pb40 {
+    padding-bottom: 40px;
+  }
+
+  .pb60 {
+    padding-bottom: 60px;
+  }
+
+  .pr20 {
+    padding-right: 20px;
+  }
+
+  .mr10 {
+    margin-right: 10px;
+  }
+
+  .mb10 {
+    margin-bottom: 10px;
+  }
+
+  .mb20 {
+    margin-bottom: 20px;
+  }
+
+  .mt10 {
+    margin-top: 10px;
+  }
+
+  .mt20 {
+    margin-top: 20px;
+  }
+
 </style>

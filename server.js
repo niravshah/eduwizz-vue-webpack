@@ -23,6 +23,7 @@ var initPassport = require('./server/passport/init')
 initPassport(passport)
 
 var login = require('./server/routes/api/auth')(passport)
+var aws = require('./server/routes/api/aws')
 
 app.use(logger('dev'))
 app.use(bodyParser.json())
@@ -31,6 +32,7 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(login)
+app.use(aws)
 
 app.use(express.static(path.join(__dirname, 'dist')))
 // Catch all other routes and return the index file

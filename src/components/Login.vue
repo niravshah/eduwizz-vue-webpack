@@ -8,18 +8,40 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <form class="form-login" action="index.html">
+          <form class="form-login" novalidate>
             <h2 class="form-login-heading">sign in now</h2>
-            <div class="login-wrap">
-              <input type="text" class="form-control" placeholder="User ID" autofocus>
-              <br>
-              <input type="password" class="form-control" placeholder="Password">
+            <div class="login-wrap text-center">
+              <div class="row pb10 pt10">
+                <div v-if="messages.length > 0" class="col-md-12 text-center">
+                  <p :class="m.type" v-for="m in messages">{{m.message}}</p>
+                </div>
+              </div>
+              <div class="row pb10">
+                <div class="col-md-12">
+                  <input type="text" class="form-control" name="username" v-model="username" placeholder="User ID"
+                         autofocus
+                         v-validate="'required'">
+                  <small class="pt10 error" v-show="errors.has('username')">
+                    {{ errors.first('username')}}
+                  </small>
+                </div>
+              </div>
+              <div class="row pb10">
+                <div class="col-md-12">
+                  <input type="password" v-model="password" name="password" class="form-control" placeholder="Password"
+                         v-validate="'required'">
+                  <small class="pt10 error" v-show="errors.has('password')">
+                    {{ errors.first('password')}}
+                  </small>
+                </div>
+              </div>
               <label class="checkbox">
 		                <span class="pull-right">
 		                    <a data-toggle="modal" href="login.html#myModal"> Forgot Password?</a>
 		                </span>
               </label>
-              <button class="btn btn-theme btn-block" href="index.html" type="submit"><i
+              <button class="btn btn-theme btn-block" href="index.html" v-bind:disabled="!isValid" v-on:click="login()"
+                      type="button"><i
                 class="fa fa-lock"></i>
                 SIGN IN
               </button>
@@ -55,9 +77,58 @@
 </template>
 
 <script>
+  import axios from 'axios'
+
   export default {
-    name: 'login'
+    name: 'login',
+    data: function () {
+      return {
+        messages: [],
+        username: '',
+        password: ''
+      }
+    },
+    computed: {
+      isValid: function () {
+        return !this.errors.any() &&
+          this.username !== '' &&
+          this.password !== ''
+      }
+    },
+    methods: {
+      login: function () {
+        console.log('Test Method', this.username, this.password)
+
+        var url = '/api/auth/login'
+        var body = {username: this.username, password: this.password}
+
+        axios.post(url, body).then(res => {
+          var token = res.body.token
+          if (token) {
+            var email = res.email
+            localStorage.setItem('token', token)
+            localStorage.setItem('currentUser', JSON.stringify({
+              email: email,
+              username: this.username,
+              token: token,
+              sid: res.body.sid
+            }))
+            document.location.href = '/home'
+            // this.router.navigate(['reset-password']);
+          } else {
+            this.messages.push({type: 'error', message: 'Username or password incorrect'})
+          }
+        }).catch(err => {
+          if (err.response.status === 404) {
+            this.messages.push({type: 'error', message: err.message})
+          } else {
+            this.messages.push({type: 'error', message: err.message})
+          }
+        })
+      }
+    }
   }
+
 </script>
 
 <style>
