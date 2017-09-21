@@ -23,7 +23,7 @@ var initPassport = require('./server/passport/init')
 initPassport(passport)
 
 var login = require('./server/routes/api/auth')(passport)
-var aws = require('./server/routes/api/aws')
+var aws = require('./server/routes/api/aws')(passport)
 
 app.use(logger('dev'))
 app.use(bodyParser.json())
