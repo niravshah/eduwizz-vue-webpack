@@ -100,6 +100,7 @@
 
         axios.post(url, body).then(res => {
           console.log('Response', res)
+          this.$router.push('/admin/users')
         }).catch(err => {
           console.log('Error', err)
         })

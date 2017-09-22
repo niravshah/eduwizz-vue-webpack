@@ -21,10 +21,10 @@
               <tr v-for="user in users">
                 <td data-title="username">{{user.username}}</td>
                 <td data-title="active">{{user.active}}</td>
-                <td data-title="maths">{{user.maths}}</td>
-                <td data-title="physics">{{user.physics}}</td>
-                <td data-title="chemistry">{{user.chemistry}}</td>
-                <td data-title="biology">{{user.biology}}</td>
+                <td data-title="maths">{{user.permissions.maths}}</td>
+                <td data-title="physics">{{user.permissions.physics}}</td>
+                <td data-title="chemistry">{{user.permissions.chemistry}}</td>
+                <td data-title="biology">{{user.permissions.biology}}</td>
               </tr>
 
               </tbody>

@@ -21,7 +21,7 @@ var router = new Router({
         {path: '/maths', component: Math, meta: {auth: false}},
         {path: '/download', component: Download, metas: {auth: false}},
         {path: '/admin/users', component: Users, name: 'Users', metas: {auth: false}},
-        {path: '/admin/users/add', name: 'AddUser', component: AddUser, meta: {auth: false}}
+        {path: '/admin/users/add', component: AddUser, name: 'AddUser', meta: {auth: false}}
       ]
     },
     {
