@@ -97,8 +97,6 @@
     },
     methods: {
       login: function () {
-        console.log('Test Method', this.username, this.password)
-
         var url = '/api/auth/login'
         var body = {username: this.username, password: this.password}
 
@@ -113,8 +111,7 @@
               token: token,
               sid: res.body.sid
             }))
-            document.location.href = '/home'
-            // this.router.navigate(['reset-password']);
+            this.$router.push('/')
           } else {
             this.messages.push({type: 'error', message: 'Username or password incorrect'})
           }
