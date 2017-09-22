@@ -1,5 +1,32 @@
 <template>
   <div>
+
+    <div v-if="users.length > 0" class="row mt">
+      <div class="col-lg-12">
+        <div class="content-panel">
+          <h4><i class="fa fa-angle-right"></i> Current Users</h4>
+          <section id="no-more-tables">
+            <table class="table table-bordered table-striped table-condensed cf">
+              <thead class="cf">
+              <tr>
+                <th>Username</th>
+                <th>Active</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="user in users">
+                <td data-title="username">{{user.username}}</td>
+                <td data-title="active">{{user.active}}</td>
+              </tr>
+
+              </tbody>
+            </table>
+          </section>
+        </div><!-- /content-panel -->
+      </div><!-- /col-lg-12 -->
+    </div><!-- /row -->
+
+
     <h3><i class="fa fa-angle-right"></i> Add a New User</h3>
     <div class="row mt">
       <div class="col-lg-12">
@@ -47,6 +74,7 @@
     name: 'Users',
     data: function () {
       return {
+        users: [],
         username: '',
         password: '',
         rPassword: '',
@@ -63,11 +91,24 @@
           this.password === this.rPassword
       }
     },
+    created: function () {
+      var url = '/api/admin/users'
+      axios.get(url).then(res => {
+        console.log(res)
+        this.users = res.data.users
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     methods: {
       submit: function () {
-        var url = '/api/auth/login'
+        var url = '/api/admin/users'
         var body = {username: this.username, password: this.password, email: this.email}
-        axios.post(url, body).then(res => {}).catch(e => {})
+        axios.post(url, body).then(res => {
+          console.log('Response', res)
+        }).catch(err => {
+          console.log('Error', err)
+        })
       }
     }
   }

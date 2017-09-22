@@ -24,6 +24,7 @@ initPassport(passport)
 
 var login = require('./server/routes/api/auth')(passport)
 var aws = require('./server/routes/api/aws')(passport)
+var users = require('./server/routes/api/users')(passport)
 
 app.use(logger('dev'))
 app.use(bodyParser.json())
@@ -33,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(login)
 app.use(aws)
+app.use(users)
 
 app.use(express.static(path.join(__dirname, 'dist')))
 // Catch all other routes and return the index file
