@@ -6,6 +6,7 @@ import Dashboard from '@/components/Dashboard'
 import Math from '@/components/Math'
 import Download from '@/components/Download'
 import Users from '@/components/Users'
+import AddUser from '@/components/User-Add'
 
 Vue.use(Router)
 
@@ -19,7 +20,8 @@ var router = new Router({
         {path: '', name: 'Home', component: Dashboard, meta: {auth: false}},
         {path: '/maths', component: Math, meta: {auth: false}},
         {path: '/download', component: Download, metas: {auth: false}},
-        {path: '/admin/users', component: Users, name: 'Users', metas: {auth: false}}
+        {path: '/admin/users', component: Users, name: 'Users', metas: {auth: false}},
+        {path: '/admin/users/add', name: 'AddUser', component: AddUser, meta: {auth: false}}
       ]
     },
     {
@@ -32,8 +34,6 @@ var router = new Router({
 })
 
 router.beforeEach(function (to, from, next) {
-  console.log('Auth Guard Called!')
-
   if (to.meta.auth && !Vue.isLoggedIn()) {
     next('/login')
   } else {

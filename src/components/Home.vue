@@ -34,7 +34,7 @@
               <span>Admin</span>
             </a>
             <ul class="sub">
-              <li><a href="#/admin/users">Add Users</a></li>
+              <li><a href="#/admin/users">Users</a></li>
             </ul>
           </li>
         </ul>
