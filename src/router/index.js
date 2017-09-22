@@ -17,7 +17,7 @@ var router = new Router({
       component: Home,
       meta: {auth: false},
       children: [
-        {path: '', name: 'Home', component: Dashboard, meta: {auth: false}},
+        {path: '', name: 'Home', component: Dashboard, meta: {auth: true}},
         {path: '/maths', component: Math, meta: {auth: false}},
         {path: '/download', component: Download, metas: {auth: false}},
         {path: '/admin/users', component: Users, name: 'Users', metas: {auth: false}},
