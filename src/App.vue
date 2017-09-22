@@ -5,9 +5,9 @@
 </template>
 
 <script>
-export default {
-  name: 'app'
-}
+  export default {
+    name: 'app'
+  }
 </script>
 
 <style lang="scss">
@@ -77,9 +77,13 @@ export default {
     background: $accent-color;
   }
 
-
   ul.sidebar-menu li a.active, ul.sidebar-menu li a:hover, ul.sidebar-menu li a:focus {
     background: $accent-color;
+  }
+
+  ul.sub li a.active {
+    background: #424a5d;
+    color: $accent-color !important;
   }
 
   .site-footer {

@@ -120,7 +120,9 @@
           }
         }).catch(err => {
           if (err.response.status === 404) {
-            this.messages.push({type: 'error', message: err.message})
+            this.messages.push({type: 'error', message: 'We could not contact our server at this point.'})
+          } else if (err.response.status === 403) {
+            this.messages.push({type: 'error', message: 'Username or password incorrect'})
           } else {
             this.messages.push({type: 'error', message: err.message})
           }

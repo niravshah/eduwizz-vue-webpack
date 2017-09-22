@@ -22,10 +22,20 @@
           </p>
           <h5 class="centered">Marcel Newman</h5>
           <li class="mt">
-            <a class="active" href="home.ejs">
+            <a class="active" href="#/">
               <i class="fa fa-dashboard"></i>
               <span>Dashboard</span>
             </a>
+          </li>
+
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-desktop"></i>
+              <span>Admin</span>
+            </a>
+            <ul class="sub">
+              <li><a href="#/admin/users">Add Users</a></li>
+            </ul>
           </li>
         </ul>
       </div>
@@ -39,14 +49,14 @@
 </template>
 
 <script>
-export default {
-  name: 'hello',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
+  export default {
+    name: 'hello',
+    data () {
+      return {
+        msg: 'Welcome to Your Vue.js App'
+      }
     }
   }
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

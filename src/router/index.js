@@ -5,6 +5,7 @@ import Login from '@/components/Login'
 import Dashboard from '@/components/Dashboard'
 import Math from '@/components/Math'
 import Download from '@/components/Download'
+import Users from '@/components/Users'
 
 Vue.use(Router)
 
@@ -17,7 +18,8 @@ var router = new Router({
       children: [
         {path: '', name: 'Home', component: Dashboard, meta: {auth: false}},
         {path: '/maths', component: Math, meta: {auth: false}},
-        {path: '/download', component: Download, metas: {auth: false}}
+        {path: '/download', component: Download, metas: {auth: false}},
+        {path: '/admin/users', component: Users, name: 'Users', metas: {auth: false}}
       ]
     },
     {
