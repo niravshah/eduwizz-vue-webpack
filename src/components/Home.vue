@@ -35,6 +35,7 @@
             </a>
             <ul class="sub">
               <li><a href="#/admin/users">Users</a></li>
+              <li><a href="#/admin/papers">Papers</a></li>
             </ul>
           </li>
         </ul>

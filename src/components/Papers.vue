@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h3><i class="fa fa-angle-right"></i> Current Users</h3>
-    <a href="#/admin/users/add">Add Users</a>
-    <div v-if="users.length > 0" class="row mt">
+    <h3><i class="fa fa-angle-right"></i> Current Papers</h3>
+    <a href="#/admin/papers/add">Add Paper</a>
+    <div v-if="papers.length > 0" class="row mt">
       <div class="col-lg-12">
         <div class="content-panel">
           <section id="no-more-tables">
@@ -36,20 +36,21 @@
       </div><!-- /col-lg-12 -->
     </div><!-- /row -->
   </div>
+
 </template>
 <script>
   import axios from 'axios'
   export default {
-    name: 'Users',
+    name: 'Papers',
     data: function () {
       return {
-        users: []
+        papers: []
       }
     },
     created: function () {
-      var url = '/api/admin/users'
+      var url = '/api/admin/papers'
       axios.get(url).then(res => {
-        this.users = res.data.users
+        this.papers = res.data.papers
       }).catch(err => {
         console.log(err)
       })

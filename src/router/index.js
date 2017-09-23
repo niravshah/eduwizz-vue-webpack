@@ -11,6 +11,8 @@ import Download from '@/components/Download'
 import Users from '@/components/Users'
 import AddUser from '@/components/User-Add'
 import Error from '@/components/Error'
+import Papers from '@/components/Papers'
+import AddPaper from '@/components/Papers-Add'
 
 Vue.use(Router)
 
@@ -21,7 +23,9 @@ var router = new Router({
       component: Home,
       meta: {auth: true},
       children: [
+
         {path: '', name: 'Home', component: Dashboard, meta: {auth: true}},
+        {path: '/error', component: Error, metas: {auth: false}},
         {
           path: '/maths',
           component: Math,
@@ -77,7 +81,7 @@ var router = new Router({
           name: 'Users',
           metas: {auth: false},
           beforeEnter: (to, from, next) => {
-            if (Vue.hasCAdminPerm()) {
+            if (Vue.hasAdminPerm()) {
               next()
             } else {
               next('/error')
@@ -90,7 +94,7 @@ var router = new Router({
           name: 'AddUser',
           meta: {auth: false},
           beforeEnter: (to, from, next) => {
-            if (Vue.hasCAdminPerm()) {
+            if (Vue.hasAdminPerm()) {
               next()
             } else {
               next('/error')
@@ -98,7 +102,30 @@ var router = new Router({
           }
         },
         {
-          path: '/error', component: Error, metas: {auth: false}
+          path: '/admin/papers',
+          component: Papers,
+          name: 'Papers',
+          meta: {auth: false},
+          beforeEnter: (to, from, next) => {
+            if (Vue.hasAdminPerm()) {
+              next()
+            } else {
+              next('/error')
+            }
+          }
+        },
+        {
+          path: '/admin/papers/add',
+          component: AddPaper,
+          name: 'AddPaper',
+          meta: {auth: false},
+          beforeEnter: (to, from, next) => {
+            if (Vue.hasAdminPerm()) {
+              next()
+            } else {
+              next('/error')
+            }
+          }
         }
       ]
     },
