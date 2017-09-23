@@ -23,7 +23,7 @@ module.exports = function (passport) {
         if (user) {
           res.status(500).json({message: 'A user with this username already exists'})
         } else {
-          utils.createUser(req.body.email, req.body.password, req.body.username,
+          utils.createUser(req.body.name, req.body.email, req.body.password, req.body.username,
             req.body.maths, req.body.physics, req.body.chemistry, req.body.biology, function (err, user) {
               if (err) {
                 res.status(500).json({message: 'An unexpected error occurred while creating new user'})

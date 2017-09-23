@@ -40,11 +40,8 @@
 		                    <a data-toggle="modal" href="login.html#myModal"> Forgot Password?</a>
 		                </span>
               </label>
-              <button class="btn btn-theme btn-block" href="index.html" v-bind:disabled="!isValid" v-on:click="login()"
-                      type="button"><i
-                class="fa fa-lock"></i>
-                SIGN IN
-              </button>
+              <button class="btn btn-theme btn-block" href="index.html" v-bind:disabled="!isValid" v-on:click.prevent="login()"
+                      type="button"><i class="fa fa-lock"></i>SIGN IN</button>
             </div>
             <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal"
                  class="modal fade">
@@ -101,15 +98,16 @@
         var body = {username: this.username, password: this.password}
 
         axios.post(url, body).then(res => {
-          var token = res.body.token
+          var token = res.data.token
           if (token) {
-            var email = res.email
+            var email = res.data.email
             localStorage.setItem('token', token)
             localStorage.setItem('currentUser', JSON.stringify({
+              name: res.data.name,
               email: email,
               username: this.username,
               token: token,
-              sid: res.body.sid
+              sid: res.data.sid
             }))
             this.$router.push('/')
           } else {
@@ -127,7 +125,6 @@
       }
     }
   }
-
 </script>
 
 <style>

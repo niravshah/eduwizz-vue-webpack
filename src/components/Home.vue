@@ -8,7 +8,7 @@
       <div class="top-menu">
         <ul class="nav pull-right top-menu">
           <li><a class="home" href="#/">Home</a></li>
-          <li><a class="logout" href="login.html">Logout</a></li>
+          <li><a class="logout" v-on:click="logout()" href="#">Logout</a></li>
         </ul>
       </div>
     </header>
@@ -20,7 +20,7 @@
               <img src="/static/img/owl2_128_128.png" class="img-circle" width="60">
             </a>
           </p>
-          <h5 class="centered">Marcel Newman</h5>
+          <h5 class="centered">{{loggedInUser.name}}</h5>
           <li class="mt">
             <a class="active" href="#/">
               <i class="fa fa-dashboard"></i>
@@ -49,11 +49,24 @@
 </template>
 
 <script>
+  import Vue from 'vue'
+
   export default {
     name: 'hello',
     data () {
       return {
-        msg: 'Welcome to Your Vue.js App'
+        msg: 'Welcome to Your Vue.js App',
+        loggedInUsed: ''
+      }
+    },
+    created: function () {
+      this.loggedInUser = JSON.parse(Vue.loggedInUser())
+    },
+    methods: {
+      logout: function () {
+        localStorage.removeItem('currentUser')
+        localStorage.removeItem('token')
+        this.$router.push('/login')
       }
     }
   }

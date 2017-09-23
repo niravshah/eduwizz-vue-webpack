@@ -8,6 +8,13 @@
             <div class="form-group">
               <label class="col-sm-2 col-sm-2 control-label">Name</label>
               <div class="col-sm-6">
+                <input name="name" v-model="name" type="text" class="form-control">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 col-sm-2 control-label">Username</label>
+              <div class="col-sm-6">
                 <input name="username" v-model="username" type="text" class="form-control">
               </div>
             </div>
@@ -65,6 +72,7 @@
     name: 'AddUser',
     data: function () {
       return {
+        name: '',
         username: '',
         password: '',
         rPassword: '',
@@ -78,6 +86,7 @@
     computed: {
       isValid: function () {
         return !this.errors.any() &&
+          this.name !== '' &&
           this.username !== '' &&
           this.password !== '' &&
           this.rPassword !== '' &&
@@ -89,6 +98,7 @@
       submit: function () {
         var url = '/api/admin/users'
         var body = {
+          name: this.name,
           username: this.username,
           password: this.password,
           email: this.email,

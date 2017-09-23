@@ -9,6 +9,7 @@
             <table class="table table-bordered table-striped table-condensed cf">
               <thead class="cf">
               <tr>
+                <th>Name</th>
                 <th>Username</th>
                 <th>Active</th>
                 <th>Maths</th>
@@ -19,6 +20,7 @@
               </thead>
               <tbody>
               <tr v-for="user in users">
+                <td data-title="name">{{user.name}}</td>
                 <td data-title="username">{{user.username}}</td>
                 <td data-title="active">{{user.active}}</td>
                 <td data-title="maths">{{user.permissions.maths}}</td>
