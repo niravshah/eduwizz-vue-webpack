@@ -28,7 +28,7 @@
             </a>
           </li>
 
-          <li class="sub-menu">
+          <li v-if="isAdminLoggedIn()" class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-desktop"></i>
               <span>Admin</span>
@@ -67,6 +67,9 @@
         localStorage.removeItem('currentUser')
         localStorage.removeItem('token')
         this.$router.push('/login')
+      },
+      isAdminLoggedIn: function () {
+        return Vue.isAdminLoggedIn()
       }
     }
   }

@@ -13,7 +13,8 @@ module.exports = mongoose.model('User', {
     maths: {type: Boolean, default: false},
     chemistry: {type: Boolean, default: false},
     biology: {type: Boolean, default: false},
-    physics: {type: Boolean, default: false}
+    physics: {type: Boolean, default: false},
+    admin: {type: Boolean, default: false}
   }
 })
 

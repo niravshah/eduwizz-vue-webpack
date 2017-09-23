@@ -108,6 +108,26 @@ var JwtPlugin = {
     Vue.loggedInJwt = function () {
       return localStorage.getItem('token')
     }
+
+    Vue.isAdminLoggedIn = function () {
+      return JSON.parse(localStorage.getItem('currentUser')).permissions.admin
+    }
+    Vue.hasAdminPerm = function () {
+      return JSON.parse(localStorage.getItem('currentUser')).permissions.admin
+    }
+
+    Vue.hasMathsPerm = function () {
+      return JSON.parse(localStorage.getItem('currentUser')).permissions.maths
+    }
+    Vue.hasPhysicsPerm = function () {
+      return JSON.parse(localStorage.getItem('currentUser')).permissions.physics
+    }
+    Vue.hasBiologyPerm = function () {
+      return JSON.parse(localStorage.getItem('currentUser')).permissions.biology
+    }
+    Vue.hasChemistryPerm = function () {
+      return JSON.parse(localStorage.getItem('currentUser')).permissions.chemistry
+    }
   }
 }
 

@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-lg-9 main-chart">
       <div class="row mt">
-        <div class="col-md-4 col-sm-4 mb">
+        <div v-if="hasMathsPerm()" class="col-md-4 col-sm-4 mb">
           <a href="#/maths">
             <div class="darkblue-panel pn">
               <div class="darkblue-header">
@@ -19,8 +19,8 @@
             </div>
           </a>
         </div>
-        <div class="col-md-4 col-sm-4 mb">
-          <a href="physics">
+        <div v-if="hasPhysicsPerm()" class="col-md-4 col-sm-4 mb">
+          <a href="#/physics">
             <div class="darkblue-panel pn">
               <div class="darkblue-header">
                 <h5>PHYSICS</h5>
@@ -36,7 +36,7 @@
             </div>
           </a>
         </div>
-        <div class="col-md-4 col-sm-4 mb">
+        <div v-if="hasBiologyPerm()" class="col-md-4 col-sm-4 mb">
           <a href="#/biology">
             <div class="darkblue-panel pn">
               <div class="darkblue-header">
@@ -53,10 +53,9 @@
             </div>
           </a>
         </div>
-
       </div>
       <div class="row">
-        <div class="col-md-4 col-sm-4 mb">
+        <div v-if="hasChemistryPerm()" class="col-md-4 col-sm-4 mb">
           <a href="#/chemistry">
             <div class="darkblue-panel pn">
               <div class="darkblue-header">
@@ -78,8 +77,23 @@
   </div>
 </template>
 <script>
+  import Vue from 'vue'
   export default {
-    name: 'dashboard'
+    name: 'dashboard',
+    methods: {
+      hasMathsPerm: function () {
+        return Vue.hasMathsPerm()
+      },
+      hasPhysicsPerm: function () {
+        return Vue.hasPhysicsPerm()
+      },
+      hasChemistryPerm: function () {
+        return Vue.hasChemistryPerm()
+      },
+      hasBiologyPerm: function () {
+        return Vue.hasBiologyPerm()
+      }
+    }
   }
 </script>
 <style></style>

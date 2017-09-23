@@ -15,7 +15,8 @@ module.exports = function (passport) {
       'message': 'ok',
       'email': req.user.email,
       'sid': req.user.sid,
-      name: req.user.name,
+      'name': req.user.name,
+      'permissions': req.user.permissions,
       'token': token
     })
   }, function (err, req, res, next) {

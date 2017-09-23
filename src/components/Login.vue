@@ -40,8 +40,10 @@
 		                    <a data-toggle="modal" href="login.html#myModal"> Forgot Password?</a>
 		                </span>
               </label>
-              <button class="btn btn-theme btn-block" href="index.html" v-bind:disabled="!isValid" v-on:click.prevent="login()"
-                      type="button"><i class="fa fa-lock"></i>SIGN IN</button>
+              <button class="btn btn-theme btn-block" href="index.html" v-bind:disabled="!isValid"
+                      v-on:click.prevent="login()"
+                      type="button"><i class="fa fa-lock"></i>SIGN IN
+              </button>
             </div>
             <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal"
                  class="modal fade">
@@ -107,7 +109,8 @@
               email: email,
               username: this.username,
               token: token,
-              sid: res.data.sid
+              sid: res.data.sid,
+              permissions: res.data.permissions
             }))
             this.$router.push('/')
           } else {
