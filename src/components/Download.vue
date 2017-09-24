@@ -27,9 +27,12 @@
       }
     },
     created: function () {
-      axios.get('/api/aws/links?key=' + this.$route.query.key).then(res => {
+      var headers = {'Authorization': 'JWT ' + localStorage.getItem('token')}
+      axios.get('/api/aws/sign/get?key=' + this.$route.query.key, {headers: headers}).then(res => {
         this.downloadUrl = res.data.url
-      }).catch(e => {})
+      }).catch(e => {
+        this.$router.push('/error')
+      })
     }
   }
 </script>
