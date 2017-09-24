@@ -39,13 +39,15 @@
               <label class="col-sm-2 col-sm-2 control-label">Upload File</label>
               <div class="col-sm-6">
                 <input v-on:change="getSignedUrl()" type="file" name="paperFile" id="paperFile">
+                <span id="paperFileSpinner"></span>
               </div>
             </div>
-
             <div class="row">
               <div class="col-md-12">
                 <button v-bind:disabled="!isValid" v-on:click.prevent="submit()" class="btn btn-theme">Save
                 </button>
+                <span id="saveSpinner"></span>
+                <span id="paperUploadError"></span>
               </div>
             </div>
           </form>
@@ -62,46 +64,72 @@
       return {
         name: '',
         description: '',
-        subject: ''
+        subject: '',
+        signedUrl: ''
       }
     },
     computed: {
       isValid: function () {
         return !this.errors.any() &&
-          this.name !== ''
+          this.name !== '' &&
+          this.subject !== '' &&
+          this.signedUrl !== ''
       }
     },
     methods: {
       submit: function () {
-        var url = '/api/admin/users'
-        var body = {
-          name: this.name,
-          subject: this.subject,
-          description: this.description
-        }
-
-        console.log(url, body)
-
-//        axios.post(url, body).then(res => {
-//          console.log('Response', res)
-//          this.$router.push('/admin/papers')
-//        }).catch(err => {
-//          console.log('Error', err)
-//        })
+        const files = document.getElementById('paperFile').files
+        const file = files[0]
+        let data = new FormData()
+        data.append('file', file)
+        // eslint-disable-next-line no-undef
+        var spinner = new Spinner({scale: 0.75}).spin()
+        document.getElementById('saveSpinner').appendChild(spinner.el)
+        axios.put(this.signedUrl, data).then(res => {
+            // eslint-disable-next-line indent
+            if (res.statusCode === 200) {
+              var url = '/api/admin/papers'
+              var body = {
+                name: this.name,
+                subject: this.subject,
+                description: this.description,
+                key: file.name,
+                type: file.type
+              }
+              axios.post(url, body).then(res => {
+                if (res.statusCode === 200) {
+                  this.$router.push('/admin/papers')
+                } else {
+                  spinner.stop()
+                  document.getElementById('paperUploadError').innerHTML = '<p>' + res.data.message + '</p>'
+                }
+              }).catch(err => {
+                console.log('Error', err)
+                spinner.stop()
+                document.getElementById('paperUploadError').innerHTML = '<p>Error Uploading File</p>'
+              })
+            } else {
+              spinner.stop()
+              document.getElementById('paperUploadError').innerHTML = '<p>Error Uploading File</p>'
+            }
+            // eslint-disable-next-line indent
+          }
+        ).catch(err => {
+          console.log(err)
+          spinner.stop()
+          document.getElementById('paperUploadError').textContent('Error Uploading File')
+        })
       },
       getSignedUrl: function () {
         const files = document.getElementById('paperFile').files
         const file = files[0]
         const url = '/api/aws/sign/put?name=' + file.name + '&type=' + file.type
+        // eslint-disable-next-line no-undef
+        var spinner = new Spinner({scale: 0.5}).spin()
+        document.getElementById('paperFileSpinner').appendChild(spinner.el)
         axios.get(url).then(res => {
-          console.log(res.data.signedData)
-          let data = new FormData()
-          data.append('file', file)
-          axios.put(res.data.signedData, data).then(res => {
-            console.log(res)
-          }).catch(err => {
-            console.log(err)
-          })
+          this.signedUrl = res.data.signedData
+          spinner.stop()
         }).catch(err => {
           console.log(err)
         })
