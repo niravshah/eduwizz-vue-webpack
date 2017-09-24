@@ -13,6 +13,16 @@ module.exports = function (passport) {
     })
   })
 
+  router.get('/api/admin/papers/:subject', (req, res) => {
+    Paper.find({subject: req.params.subject}, function (err, papers) {
+      if (err) {
+        res.status(500).json({message: 'Error fetching list of papers'})
+      } else {
+        res.json({papers: papers})
+      }
+    })
+  })
+
   router.post('/api/admin/papers', (req, res) => {
     Paper.find({key: req.body.key}, function (err, papers) {
       if (err) {
