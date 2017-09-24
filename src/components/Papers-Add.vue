@@ -87,7 +87,7 @@
         document.getElementById('saveSpinner').appendChild(spinner.el)
         axios.put(this.signedUrl, data).then(res => {
             // eslint-disable-next-line indent
-            if (res.statusCode === 200) {
+            if (res.status === 200) {
               var url = '/api/admin/papers'
               var body = {
                 name: this.name,
@@ -97,7 +97,7 @@
                 type: file.type
               }
               axios.post(url, body).then(res => {
-                if (res.statusCode === 200) {
+                if (res.status === 200) {
                   this.$router.push('/admin/papers')
                 } else {
                   spinner.stop()

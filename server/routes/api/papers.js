@@ -13,7 +13,7 @@ module.exports = function (passport) {
     })
   })
 
-  router.post('/api/admin/papers', (res, req) => {
+  router.post('/api/admin/papers', (req, res) => {
     Paper.find({key: req.body.key}, function (err, papers) {
       if (err) {
         res.status(500).json({message: err.message})

@@ -10,23 +10,17 @@
               <thead class="cf">
               <tr>
                 <th>Name</th>
-                <th>Username</th>
-                <th>Active</th>
-                <th>Maths</th>
-                <th>Physics</th>
-                <th>Chemistry</th>
-                <th>Biology</th>
+                <th>Subject</th>
+                <th>Description</th>
+                <th>Download Link</th>
               </tr>
               </thead>
               <tbody>
-              <tr v-for="user in users">
-                <td data-title="name">{{user.name}}</td>
-                <td data-title="username">{{user.username}}</td>
-                <td data-title="active">{{user.active}}</td>
-                <td data-title="maths">{{user.permissions.maths}}</td>
-                <td data-title="physics">{{user.permissions.physics}}</td>
-                <td data-title="chemistry">{{user.permissions.chemistry}}</td>
-                <td data-title="biology">{{user.permissions.biology}}</td>
+              <tr v-for="paper in papers">
+                <td data-title="name">{{paper.name}}</td>
+                <td data-title="subject">{{paper.subject}}</td>
+                <td data-title="description">{{paper.description}}</td>
+                <td data-title="link">{{paper.key}}</td>
               </tr>
 
               </tbody>
