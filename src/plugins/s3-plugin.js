@@ -1,21 +1,15 @@
 var S3Plugin = {
   install: function (Vue, options) {
     Vue.s3Init = function (callback) {
-      var albumBucketName = 'raisebetter'
-
-      var bucketRegion = 'eu-west-2'
-      var IdentityPoolId = 'eu-west-2:07e95cee-5f85-4371-bdeb-d15b1090b4e0'
-
       try {
         AWS.config.update({
-          region: bucketRegion,
-          credentials: new AWS.CognitoIdentityCredentials({
-            IdentityPoolId: IdentityPoolId
-          })
+          region: process.env.AWS_REGION,
+          accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
         })
 
         Vue.s3 = new AWS.S3({
-          params: {Bucket: albumBucketName}
+          params: {Bucket: process.env.AWS_BUCKET}
         })
       } catch (e) {
         if (e instanceof ReferenceError) {

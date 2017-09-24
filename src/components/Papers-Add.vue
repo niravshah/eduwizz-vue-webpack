@@ -38,7 +38,7 @@
             <div class="form-group">
               <label class="col-sm-2 col-sm-2 control-label">Upload File</label>
               <div class="col-sm-6">
-                <input type="file" name="paperFile" >
+                <input v-on:change="getSignedUrl()" type="file" name="paperFile" id="paperFile">
               </div>
             </div>
 
@@ -55,7 +55,7 @@
   </div>
 </template>
 <script>
-  // import axios from 'axios'
+  import axios from 'axios'
   export default {
     name: 'AddPaper',
     data: function () {
@@ -88,6 +88,23 @@
 //        }).catch(err => {
 //          console.log('Error', err)
 //        })
+      },
+      getSignedUrl: function () {
+        const files = document.getElementById('paperFile').files
+        const file = files[0]
+        const url = '/api/aws/sign/put?name=' + file.name + '&type=' + file.type
+        axios.get(url).then(res => {
+          console.log(res.data.signedData)
+          let data = new FormData()
+          data.append('file', file)
+          axios.put(res.data.signedData, data).then(res => {
+            console.log(res)
+          }).catch(err => {
+            console.log(err)
+          })
+        }).catch(err => {
+          console.log(err)
+        })
       }
     }
   }
