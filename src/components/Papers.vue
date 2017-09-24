@@ -20,7 +20,7 @@
                 <td data-title="name">{{paper.name}}</td>
                 <td data-title="subject">{{paper.subject}}</td>
                 <td data-title="description">{{paper.description}}</td>
-                <td data-title="link">{{paper.key}}</td>
+                <td data-title="link"><a v-bind:href="'#/download?key=' + paper.key">Link</a></td>
               </tr>
 
               </tbody>

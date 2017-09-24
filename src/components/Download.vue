@@ -7,7 +7,7 @@
     </div>
     <div clas="row">
       <div clas="col-md-12">
-        <a v-bind:disabled="!isValid" v-bind:href="downloadUrl">Download Now</a>
+        <a v-bind:disabled="!isValid" v-bind:href="downloadUrl">Click this Link to Download</a>
       </div>
     </div>
   </div>
