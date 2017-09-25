@@ -28,7 +28,7 @@
             <h4>Are you sure you want to deactivate paper?</h4>
             <button id="deleteBtn" v-on:click.prevent="submit()" class="btn btn-theme">Deactivate
             </button>
-            <span id="deleteSpinner"></span>
+            <span id="processingSpinner"></span>
           </div>
         </div>
         <div class="row pt10">
@@ -62,8 +62,8 @@
         var url = '/api/admin/paper/' + this.$route.query.sid
         // eslint-disable-next-line no-undef
         var spinner = new Spinner({scale: 0.75}).spin()
-        document.getElementById('deleteSpinner').style.display = 'block'
-        document.getElementById('deleteSpinner').appendChild(spinner.el)
+        document.getElementById('processingSpinner').style.display = 'block'
+        document.getElementById('processingSpinner').appendChild(spinner.el)
         document.getElementById('deleteBtn').disabled = true
 
         axios.patch(url, {active: false}).then(res => {
@@ -79,7 +79,7 @@
       },
       stopSpinner: function (spinner) {
         spinner.stop()
-        document.getElementById('deleteSpinner').style.display = 'none'
+        document.getElementById('processingSpinner').style.display = 'none'
         document.getElementById('deleteBtn').disabled = false
       }
     }

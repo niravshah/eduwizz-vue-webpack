@@ -29,8 +29,8 @@
                 <td v-bind:class="{red:!paper.active, green:paper.active}" data-title="active">{{paper.active}}</td>
                 <td data-title="link"><a v-bind:href="'#/download?key=' + paper.key">Link</a></td>
                 <td data-title="actions">
-                  <a style="padding-right: 15px" v-bind:href="'#/admin/papers/delete?sid='+paper.sid">Deactivate</a>
-                  <a v-bind:href="'#/admin/papers/edit?sid='+paper.sid">Edit</a>
+                  <a v-if="paper.active" style="padding-right: 15px" v-bind:href="'#/admin/papers/delete?sid='+paper.sid">Deactivate</a>
+                  <a v-if="paper.active" v-bind:href="'#/admin/papers/edit?sid='+paper.sid">Edit</a>
                 </td>
 
               </tr>

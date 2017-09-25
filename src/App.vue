@@ -174,7 +174,7 @@
     margin-right: 40px;
   }
 
-  #deleteSpinner {
+  #processingSpinner {
     position: fixed; /* Sit on top of the page content */
     display: none; /* Hidden by default */
     width: 100%; /* Full width (cover the whole page) */
