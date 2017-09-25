@@ -144,6 +144,10 @@
     padding-right: 20px;
   }
 
+  .pr10 {
+    padding-right: 10px;
+  }
+
   .mr10 {
     margin-right: 10px;
   }

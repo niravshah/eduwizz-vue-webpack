@@ -33,11 +33,11 @@
                 <td data-title="chemistry">{{user.permissions.chemistry}}</td>
                 <td data-title="biology">{{user.permissions.biology}}</td>
                 <td data-title="actions">
-                  <a v-if="user.active" style="padding-right: 15px" v-bind:href="'#/admin/users/delete?sid='+user.sid">Deactivate</a>
-                  <a v-if="user.active" v-bind:href="'#/admin/users/edit?sid='+user.sid">Edit</a>
+                  <a v-if="user.active" v-bind:href="'#/admin/users/edit?sid='+user.sid" class="pr10">Edit</a>
+                  <a v-if="user.active" v-bind:href="'#/admin/users/reset-password?sid='+user.sid" class="pr10">Reset Password</a>
+                  <a v-if="user.active" v-bind:href="'#/admin/users/delete?sid='+user.sid">Deactivate</a>
                 </td>
               </tr>
-
               </tbody>
             </table>
           </section>
