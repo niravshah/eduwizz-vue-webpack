@@ -15,6 +15,8 @@ import AddUser from '@/components/User-Add'
 import Error from '@/components/Error'
 import Papers from '@/components/Papers'
 import AddPaper from '@/components/Papers-Add'
+import EditPaper from '@/components/Papers-Edit'
+import DeletePaper from '@/components/Papers-Delete'
 
 Vue.use(Router)
 
@@ -146,6 +148,32 @@ var router = new Router({
           path: '/admin/papers/add',
           component: AddPaper,
           name: 'AddPaper',
+          meta: {auth: false},
+          beforeEnter: (to, from, next) => {
+            if (Vue.hasAdminPerm()) {
+              next()
+            } else {
+              next('/error')
+            }
+          }
+        },
+        {
+          path: '/admin/papers/delete',
+          component: DeletePaper,
+          name: 'DeletePaper',
+          meta: {auth: false},
+          beforeEnter: (to, from, next) => {
+            if (Vue.hasAdminPerm()) {
+              next()
+            } else {
+              next('/error')
+            }
+          }
+        },
+        {
+          path: '/admin/papers/edit',
+          component: EditPaper,
+          name: 'EditPaper',
           meta: {auth: false},
           beforeEnter: (to, from, next) => {
             if (Vue.hasAdminPerm()) {

@@ -23,6 +23,34 @@ module.exports = function (passport) {
     })
   })
 
+  router.get('/api/admin/paper/:sid', (req, res) => {
+    Paper.findOne({sid: req.params.sid}, function (err, paper) {
+      if (err) {
+        res.status(500).json({message: 'Error getting paper'})
+      } else {
+        if (paper) {
+          res.json({paper: paper})
+        } else {
+          res.status(500).json({message: 'Paper not found'})
+        }
+      }
+    })
+  })
+
+  router.patch('/api/admin/paper/:sid', (req, res) => {
+    Paper.findOneAndUpdate({sid: req.params.sid}, req.body, {new: true}, function (err, paper) {
+      if (err) {
+        res.status(500).json({message: 'Error getting paper'})
+      } else {
+        if (paper) {
+          res.json({paper: paper})
+        } else {
+          res.status(500).json({message: 'Paper not found'})
+        }
+      }
+    })
+  })
+
   router.post('/api/admin/papers', (req, res) => {
     Paper.find({key: req.body.key}, function (err, papers) {
       if (err) {

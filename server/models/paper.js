@@ -7,7 +7,8 @@ var paperSchema = new Schema({
   key: {type: String, required: true},
   subject: {type: String, required: true},
   description: {type: String},
-  type: {type: String}
+  type: {type: String},
+  active: {type: Boolean, default: true}
 })
 
 paperSchema.methods.isMaths = function () {

@@ -33,7 +33,7 @@
                 <td data-title="chemistry">{{user.permissions.chemistry}}</td>
                 <td data-title="biology">{{user.permissions.biology}}</td>
                 <td data-title="actions">
-                  <a v-if="user.active" style="padding-right: 15px" v-bind:href="'#/admin/users/delete?sid='+user.sid">Delete</a>
+                  <a v-if="user.active" style="padding-right: 15px" v-bind:href="'#/admin/users/delete?sid='+user.sid">Deactivate</a>
                   <a v-if="user.active" v-bind:href="'#/admin/users/edit?sid='+user.sid">Edit</a>
                 </td>
               </tr>
@@ -66,15 +66,5 @@
   }
 </script>
 <style>
-  .red {
-    color: red;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
 
-  .green {
-    color: forestgreen;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
 </style>
