@@ -1,9 +1,8 @@
 <template>
   <div>
     <h3><i class="fa fa-angle-right"></i> Delete User</h3>
-    <div class="row mt">
+    <div v-if="user !== ''" class="row mt">
       <div class="col-lg-12">
-
         <div class="row pb10">
           <label class="col-sm-2 col-sm-2 control-label">Name</label>
           <div class="col-sm-6">
@@ -30,17 +29,32 @@
               <input type="checkbox" id="maths" disabled="disabled" name="maths" v-model="user.permissions.maths"> Maths
             </label>
             <label class="checkbox-inline">
-              <input type="checkbox" id="physics" disabled="disabled" name="physics" v-model="user.permissions.physics"> Physics
+              <input type="checkbox" id="physics" disabled="disabled" name="physics" v-model="user.permissions.physics">
+              Physics
             </label>
             <label class="checkbox-inline">
-              <input type="checkbox" id="chemistry" disabled="disabled" name="chemistry" v-model="user.permissions.chemistry"> Chemistry
+              <input type="checkbox" id="chemistry" disabled="disabled" name="chemistry"
+                     v-model="user.permissions.chemistry"> Chemistry
             </label>
             <label class="checkbox-inline">
-              <input type="checkbox" id="biology" disabled="disabled" name="biology" v-model="user.permissions.biology"> Biology
+              <input type="checkbox" id="biology" disabled="disabled" name="biology" v-model="user.permissions.biology">
+              Biology
             </label>
           </div>
         </div>
-
+        <div class="pt20 row">
+          <div class="col-md-6">
+            <h4>Are you sure you want to delete?</h4>
+            <button id="deleteBtn" v-on:click.prevent="submit()" class="btn btn-theme">Delete
+            </button>
+            <span id="deleteSpinner"></span>
+          </div>
+        </div>
+        <div class="row pt10">
+          <div class="col-md-6">
+            <h5 id="deleteError"></h5>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -62,7 +76,51 @@
       }).catch(err => {
         console.log(err)
       })
+    },
+    methods: {
+      submit: function () {
+        var url = '/api/admin/user/' + this.$route.query.sid
+        // eslint-disable-next-line no-undef
+        var spinner = new Spinner({scale: 0.75}).spin()
+        document.getElementById('deleteSpinner').style.display = 'block'
+        document.getElementById('deleteSpinner').appendChild(spinner.el)
+        document.getElementById('deleteBtn').disabled = true
+
+        axios.patch(url, {active: false}).then(res => {
+          if (res.status === 200) {
+            this.$router.push('/admin/users')
+          } else {
+            this.stopSpinner(spinner)
+          }
+        }).catch(err => {
+          this.stopSpinner(spinner)
+          document.getElementById('deleteError').innerText = err.message
+        })
+      },
+      stopSpinner: function (spinner) {
+        spinner.stop()
+        document.getElementById('deleteSpinner').style.display = 'none'
+        document.getElementById('deleteBtn').disabled = false
+      }
     }
   }
 </script>
-<style></style>
+<style>
+  #deleteSpinner {
+    position: fixed; /* Sit on top of the page content */
+    display: none; /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
+  }
+
+  #deleteError {
+    color: red;
+  }
+</style>

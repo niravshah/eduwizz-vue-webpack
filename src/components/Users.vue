@@ -27,14 +27,14 @@
               <tr v-for="user in users">
                 <td data-title="name">{{user.name}}</td>
                 <td data-title="username">{{user.username}}</td>
-                <td data-title="active">{{user.active}}</td>
+                <td v-bind:class="{red:!user.active, green:user.active}" data-title="active">{{user.active}}</td>
                 <td data-title="maths">{{user.permissions.maths}}</td>
                 <td data-title="physics">{{user.permissions.physics}}</td>
                 <td data-title="chemistry">{{user.permissions.chemistry}}</td>
                 <td data-title="biology">{{user.permissions.biology}}</td>
                 <td data-title="actions">
-                  <a  style="padding-right: 15px" v-bind:href="'#/admin/users/delete?sid='+user.sid">Delete</a>
-                  <a v-bind:href="'#/admin/users/edit?sid='+user.sid">Edit</a>
+                  <a v-if="user.active" style="padding-right: 15px" v-bind:href="'#/admin/users/delete?sid='+user.sid">Delete</a>
+                  <a v-if="user.active" v-bind:href="'#/admin/users/edit?sid='+user.sid">Edit</a>
                 </td>
               </tr>
 
@@ -65,4 +65,16 @@
     }
   }
 </script>
-<style></style>
+<style>
+  .red {
+    color: red;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .green {
+    color: forestgreen;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+</style>
