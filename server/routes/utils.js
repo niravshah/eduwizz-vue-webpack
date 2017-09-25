@@ -32,5 +32,11 @@ module.exports = {
     newPaper.save(function (err, paper) {
       cb(err, paper)
     })
+  },
+  resetUserPassword: function (user, password, cb) {
+    user.password = bcrypt.hashSync(password, saltRounds)
+    user.save(function (err, user) {
+      cb(err, user)
+    })
   }
 }

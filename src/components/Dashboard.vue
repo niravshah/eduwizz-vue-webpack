@@ -53,8 +53,7 @@
             </div>
           </a>
         </div>
-      </div>
-      <div class="row">
+
         <div v-if="hasChemistryPerm()" class="col-md-4 col-sm-4 mb">
           <a href="#/chemistry">
             <div class="darkblue-panel pn">

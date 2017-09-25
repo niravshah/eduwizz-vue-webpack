@@ -207,4 +207,8 @@
     font-weight: bold;
     text-transform: uppercase;
   }
+
+  .accentColor {
+    color: $accent-color
+  }
 </style>

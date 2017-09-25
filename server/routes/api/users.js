@@ -29,6 +29,27 @@ module.exports = function (passport) {
     })
   })
 
+  router.patch('/api/admin/user/:sid/reset', (req, res) => {
+    User.findOne({sid: req.params.sid}, function (err, user) {
+        if (err) {
+          res.status(500).json({message: 'Error fetching user'})
+        } else {
+          if (user) {
+            utils.resetUserPassword(user, req.body.password, function (err, user) {
+              if (err) {
+                res.status(500).json({message: err.message})
+              } else {
+                res.json({user: user})
+              }
+            })
+          } else {
+            res.status(500).json({message: 'No user found with that id'})
+          }
+        }
+      }
+    )
+  })
+
   router.patch('/api/admin/user/:sid', (req, res) => {
     User.findOneAndUpdate({sid: req.params.sid}, req.body, {new: true}, function (err, user) {
         if (err) {
