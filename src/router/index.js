@@ -12,6 +12,7 @@ import Users from '@/components/Users'
 import EditUser from '@/components/User-Edit'
 import DeleteUser from '@/components/User-Delete'
 import AddUser from '@/components/User-Add'
+import UserPassword from '@/components/User-Password'
 import Error from '@/components/Error'
 import Papers from '@/components/Papers'
 import AddPaper from '@/components/Papers-Add'
@@ -27,9 +28,9 @@ var router = new Router({
       component: Home,
       meta: {auth: true},
       children: [
-
         {path: '', name: 'Home', component: Dashboard, meta: {auth: true}},
         {path: '/error', component: Error, metas: {auth: false}},
+        {path: '/download', component: Download, metas: {auth: true}},
         {
           path: '/maths',
           component: Math,
@@ -78,12 +79,11 @@ var router = new Router({
             }
           }
         },
-        {path: '/download', component: Download, metas: {auth: true}},
         {
           path: '/admin/users',
           component: Users,
           name: 'Users',
-          metas: {auth: false},
+          metas: {auth: true},
           beforeEnter: (to, from, next) => {
             if (Vue.hasAdminPerm()) {
               next()
@@ -96,7 +96,7 @@ var router = new Router({
           path: '/admin/users/add',
           component: AddUser,
           name: 'AddUser',
-          meta: {auth: false},
+          meta: {auth: true},
           beforeEnter: (to, from, next) => {
             if (Vue.hasAdminPerm()) {
               next()
@@ -109,7 +109,20 @@ var router = new Router({
           path: '/admin/users/edit',
           component: EditUser,
           name: 'EditUser',
-          meta: {auth: false},
+          meta: {auth: true},
+          beforeEnter: (to, from, next) => {
+            if (Vue.hasAdminPerm()) {
+              next()
+            } else {
+              next('/error')
+            }
+          }
+        },
+        {
+          path: '/admin/users/reset-password',
+          component: UserPassword,
+          name: 'UserPassword',
+          meta: {auth: true},
           beforeEnter: (to, from, next) => {
             if (Vue.hasAdminPerm()) {
               next()
@@ -122,7 +135,7 @@ var router = new Router({
           path: '/admin/users/delete',
           component: DeleteUser,
           name: 'DeleteUser',
-          meta: {auth: false},
+          meta: {auth: true},
           beforeEnter: (to, from, next) => {
             if (Vue.hasAdminPerm()) {
               next()
@@ -135,7 +148,7 @@ var router = new Router({
           path: '/admin/papers',
           component: Papers,
           name: 'Papers',
-          meta: {auth: false},
+          meta: {auth: true},
           beforeEnter: (to, from, next) => {
             if (Vue.hasAdminPerm()) {
               next()
@@ -148,7 +161,7 @@ var router = new Router({
           path: '/admin/papers/add',
           component: AddPaper,
           name: 'AddPaper',
-          meta: {auth: false},
+          meta: {auth: true},
           beforeEnter: (to, from, next) => {
             if (Vue.hasAdminPerm()) {
               next()
@@ -161,7 +174,7 @@ var router = new Router({
           path: '/admin/papers/delete',
           component: DeletePaper,
           name: 'DeletePaper',
-          meta: {auth: false},
+          meta: {auth: true},
           beforeEnter: (to, from, next) => {
             if (Vue.hasAdminPerm()) {
               next()
@@ -174,7 +187,7 @@ var router = new Router({
           path: '/admin/papers/edit',
           component: EditPaper,
           name: 'EditPaper',
-          meta: {auth: false},
+          meta: {auth: true},
           beforeEnter: (to, from, next) => {
             if (Vue.hasAdminPerm()) {
               next()
