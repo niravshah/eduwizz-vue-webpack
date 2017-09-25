@@ -35,11 +35,6 @@
                   </small>
                 </div>
               </div>
-              <label class="checkbox">
-		                <span class="pull-right">
-		                    <a data-toggle="modal" href="login.html#myModal"> Forgot Password?</a>
-		                </span>
-              </label>
               <button class="btn btn-theme btn-block" href="index.html" v-bind:disabled="!isValid"
                       v-on:click.prevent="login()"
                       type="button"><i class="fa fa-lock"></i>SIGN IN
