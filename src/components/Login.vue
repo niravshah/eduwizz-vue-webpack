@@ -26,7 +26,7 @@
                   </small>
                 </div>
               </div>
-              <div class="row pb10">
+              <div class="row pb20">
                 <div class="col-md-12">
                   <input type="password" v-model="password" name="password" class="form-control" placeholder="Password"
                          v-validate="'required'">
@@ -35,10 +35,14 @@
                   </small>
                 </div>
               </div>
-              <button class="btn btn-theme btn-block" href="index.html" v-bind:disabled="!isValid"
-                      v-on:click.prevent="login()"
-                      type="button"><i class="fa fa-lock"></i>SIGN IN
-              </button>
+              <div class="row pt10 pb20">
+                <div class="col-md-12">
+                  <button class="btn btn-theme btn-block" href="index.html" v-bind:disabled="!isValid"
+                          v-on:click.prevent="login()"
+                          type="button"><i class="fa fa-lock"></i>SIGN IN
+                  </button>
+                </div>
+              </div>
             </div>
             <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal"
                  class="modal fade">
