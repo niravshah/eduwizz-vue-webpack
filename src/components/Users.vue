@@ -20,6 +20,7 @@
                 <th>Physics</th>
                 <th>Chemistry</th>
                 <th>Biology</th>
+                <th>Actions</th>
               </tr>
               </thead>
               <tbody>
@@ -31,6 +32,10 @@
                 <td data-title="physics">{{user.permissions.physics}}</td>
                 <td data-title="chemistry">{{user.permissions.chemistry}}</td>
                 <td data-title="biology">{{user.permissions.biology}}</td>
+                <td data-title="actions">
+                  <a  style="padding-right: 15px" v-bind:href="'#/admin/users/delete?sid='+user.sid">Delete</a>
+                  <a v-bind:href="'#/admin/users/edit?sid='+user.sid">Edit</a>
+                </td>
               </tr>
 
               </tbody>

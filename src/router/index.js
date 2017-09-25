@@ -9,6 +9,8 @@ import Biology from '@/components/Biology'
 import Chemistry from '@/components/Chemistry'
 import Download from '@/components/Download'
 import Users from '@/components/Users'
+import EditUser from '@/components/User-Edit'
+import DeleteUser from '@/components/User-Delete'
 import AddUser from '@/components/User-Add'
 import Error from '@/components/Error'
 import Papers from '@/components/Papers'
@@ -92,6 +94,32 @@ var router = new Router({
           path: '/admin/users/add',
           component: AddUser,
           name: 'AddUser',
+          meta: {auth: false},
+          beforeEnter: (to, from, next) => {
+            if (Vue.hasAdminPerm()) {
+              next()
+            } else {
+              next('/error')
+            }
+          }
+        },
+        {
+          path: '/admin/users/edit',
+          component: EditUser,
+          name: 'EditUser',
+          meta: {auth: false},
+          beforeEnter: (to, from, next) => {
+            if (Vue.hasAdminPerm()) {
+              next()
+            } else {
+              next('/error')
+            }
+          }
+        },
+        {
+          path: '/admin/users/delete',
+          component: DeleteUser,
+          name: 'DeleteUser',
           meta: {auth: false},
           beforeEnter: (to, from, next) => {
             if (Vue.hasAdminPerm()) {

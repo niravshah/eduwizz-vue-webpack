@@ -17,6 +17,7 @@
                 <th>Subject</th>
                 <th>Description</th>
                 <th>Download Link</th>
+                <th>Actions</th>
               </tr>
               </thead>
               <tbody>
@@ -25,6 +26,11 @@
                 <td data-title="subject">{{paper.subject}}</td>
                 <td data-title="description">{{paper.description}}</td>
                 <td data-title="link"><a v-bind:href="'#/download?key=' + paper.key">Link</a></td>
+                <td data-title="actions">
+                  <a style="padding-right: 15px" v-bind:href="'#/admin/user/papers?sid='+paper.sid">Delete</a>
+                  <a v-bind:href="'#/admin/papers/edit?sid='+paper.sid">Edit</a>
+                </td>
+
               </tr>
 
               </tbody>
