@@ -164,4 +164,14 @@
     margin-top: 20px;
   }
 
+  .hrefbtn {
+    color: #f2f2f2;
+    border: 1px solid #FF4081 !important;
+    background: #FF4081;
+    padding: 5px;
+    border-radius: 5px;
+    float: right;
+    margin-right: 40px;
+  }
+
 </style>

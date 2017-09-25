@@ -1,7 +1,11 @@
 <template>
   <div>
-    <h3><i class="fa fa-angle-right"></i> Current Users</h3>
-    <a href="#/admin/users/add">Add Users</a>
+    <div class="row">
+      <div class="col-md-12">
+        <h3><i class="fa fa-angle-right"></i> Current Users</h3>
+        <a class="hrefbtn" href="#/admin/users/add">Add Users</a>
+      </div>
+    </div>
     <div v-if="users.length > 0" class="row mt">
       <div class="col-lg-12">
         <div class="content-panel">

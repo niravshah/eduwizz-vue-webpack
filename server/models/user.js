@@ -1,6 +1,7 @@
 var mongoose = require('mongoose')
+var Schema = mongoose.Schema
 
-module.exports = mongoose.model('User', {
+var userSchema = new Schema({
   sid: {type: String},
   name: {type: String, required: true},
   username: {type: String, required: true},
@@ -17,4 +18,24 @@ module.exports = mongoose.model('User', {
     admin: {type: Boolean, default: false}
   }
 })
+
+userSchema.methods.hasMathsPerm = function () {
+  return this.permissions.maths
+}
+
+userSchema.methods.canView = function (paper) {
+  if (this.permissions.admin) {
+    return true
+  } else if (paper.isMaths()) {
+    return this.permissions.maths
+  } else if (paper.isPhysics()) {
+    return this.permissions.physics
+  } else if (paper.isChemistry()) {
+    return this.permissions.chemistry
+  } else if (paper.isBiology()) {
+    return this.permissions.biology
+  }
+}
+
+module.exports = mongoose.model('User', userSchema)
 

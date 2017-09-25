@@ -31,7 +31,7 @@
       axios.get('/api/aws/sign/get?key=' + this.$route.query.key, {headers: headers}).then(res => {
         this.downloadUrl = res.data.url
       }).catch(e => {
-        this.$router.push('/error')
+        this.$router.push('/error?status=' + e.response.status + '&message=' + e.response.data.message)
       })
     }
   }

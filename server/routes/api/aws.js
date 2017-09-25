@@ -1,4 +1,5 @@
 const express = require('express')
+const Paper = require('../../models/paper')
 const router = express.Router()
 
 const AWS = require('aws-sdk')
@@ -14,13 +15,31 @@ module.exports = function (passport) {
   router.get('/api/aws/sign/get', passport.authenticate('jwt', {
     failWithError: true
   }), function (req, res, next) {
-    const url = s3.getSignedUrl('getObject', {
-      Bucket: process.env.AWS_BUCKET,
-      Key: req.query.key,
-      Expires: signedUrlExpireSeconds
+    Paper.findOne({key: req.query.key}, function (err, paper) {
+      if (err) {
+        res.status(500).json({error: 'Unable to find a paper with the specified key'})
+      } else {
+        if (paper) {
+          if (req.user.canView(paper)) {
+            s3.getSignedUrl('getObject', {
+              Bucket: process.env.AWS_BUCKET,
+              Key: req.query.key,
+              Expires: signedUrlExpireSeconds
+            }, function (err, data) {
+              if (err) {
+                res.status(500).json({message: err.message})
+              } else {
+                res.json({url: data})
+              }
+            })
+          } else {
+            res.status(403).json({message: 'You do not permissions to download this paper'})
+          }
+        } else {
+          res.status(500).json({message: 'Couldnt find the paper you are looking for!'})
+        }
+      }
     })
-
-    res.json({url: url})
   }, function (err, req, res, next) {
     res.status(500).json({message: err.message})
   })
