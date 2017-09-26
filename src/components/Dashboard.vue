@@ -13,7 +13,7 @@
               </div>
               <footer>
                 <div class="centered">
-                  <h5><i class="fa fa-file-text-o"></i> 10 Papers</h5>
+                  <h5><i class="fa fa-file-text-o"></i> {{counts.maths}} Papers</h5>
                 </div>
               </footer>
             </div>
@@ -30,7 +30,7 @@
               </div>
               <footer>
                 <div class="centered">
-                  <h5><i class="fa fa-file-text-o"></i> 14 Papers</h5>
+                  <h5><i class="fa fa-file-text-o"></i> {{counts.physics}} Papers</h5>
                 </div>
               </footer>
             </div>
@@ -47,13 +47,12 @@
               </div>
               <footer>
                 <div class="centered">
-                  <h5><i class="fa fa-file-text-o"></i> 16 Papers</h5>
+                  <h5><i class="fa fa-file-text-o"></i> {{counts.biology}} Papers</h5>
                 </div>
               </footer>
             </div>
           </a>
         </div>
-
         <div v-if="hasChemistryPerm()" class="col-md-4 col-sm-4 mb">
           <a href="#/chemistry">
             <div class="darkblue-panel pn">
@@ -65,7 +64,7 @@
               </div>
               <footer>
                 <div class="centered">
-                  <h5><i class="fa fa-file-text-o"></i> 12 Papers</h5>
+                  <h5><i class="fa fa-file-text-o"></i> {{counts.physics}} Papers</h5>
                 </div>
               </footer>
             </div>
@@ -77,8 +76,27 @@
 </template>
 <script>
   import Vue from 'vue'
+  import axios from 'axios'
   export default {
     name: 'dashboard',
+    data: function () {
+      return {
+        counts: {
+          maths: 0,
+          physics: 0,
+          chemistry: 0,
+          biology: 0
+        }
+      }
+    },
+    created: function () {
+      var url = '/api/admin/papers/count'
+      axios.get(url).then(res => {
+        this.counts = res.data.count
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     methods: {
       hasMathsPerm: function () {
         return Vue.hasMathsPerm()

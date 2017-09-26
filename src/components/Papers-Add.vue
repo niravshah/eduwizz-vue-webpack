@@ -11,7 +11,6 @@
                 <input name="name" v-model="name" type="text" class="form-control">
               </div>
             </div>
-
             <div class="form-group">
               <label class="col-sm-2 col-sm-2 control-label">Description</label>
               <div class="col-sm-6">
@@ -36,10 +35,29 @@
               </div>
             </div>
             <div class="form-group">
+              <label class="col-sm-2 col-sm-2 control-label">Topic</label>
+              <div class="col-sm-6">
+                <input name="topic" v-model="topic" type="text" class="form-control">
+              </div>
+            </div>
+
+            <div class="form-group">
               <label class="col-sm-2 col-sm-2 control-label">Upload File</label>
               <div class="col-sm-6">
                 <input v-on:change="getSignedUrl()" type="file" name="paperFile" id="paperFile">
                 <span id="paperFileSpinner"></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 col-sm-2 control-label">No. of Questions</label>
+              <div class="col-sm-6">
+                <input name="questions" v-model="questions" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 col-sm-2 control-label">Time Allowed (mins)</label>
+              <div class="col-sm-6">
+                <input name="time" v-model="time" type="text" class="form-control">
               </div>
             </div>
             <div class="row">
@@ -65,7 +83,10 @@
         name: '',
         description: '',
         subject: '',
-        signedUrl: ''
+        questions: '',
+        time: '',
+        signedUrl: '',
+        topic: ''
       }
     },
     computed: {
@@ -94,7 +115,10 @@
                 subject: this.subject,
                 description: this.description,
                 key: file.name,
-                type: file.type
+                type: file.type,
+                questions: this.questions,
+                time: this.time,
+                topic: this.topic
               }
               axios.post(url, body).then(res => {
                 if (res.status === 200) {

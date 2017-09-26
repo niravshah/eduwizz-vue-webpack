@@ -13,6 +13,25 @@ module.exports = function (passport) {
     })
   })
 
+  router.get('/api/admin/papers/count', (req, res) => {
+    Paper.aggregate([{$match: {active: true}}, {
+      $group: {
+        _id: '$subject',
+        total: {'$sum': 1}
+      }
+    }], function (err, results) {
+      if (err) {
+        res.status(500).json({message: 'Error fetching list of papers'})
+      } else {
+        var retArr = {}
+        for (var i = 0; i < results.length; i++) {
+          retArr[results[i]._id] = results[i].total
+        }
+        res.json({count: retArr})
+      }
+    })
+  })
+
   router.get('/api/admin/papers/:subject', (req, res) => {
     Paper.find({subject: req.params.subject}, function (err, papers) {
       if (err) {

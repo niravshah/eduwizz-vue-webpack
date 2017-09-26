@@ -6,8 +6,11 @@ var paperSchema = new Schema({
   name: {type: String, required: true},
   key: {type: String, required: true},
   subject: {type: String, required: true},
+  topic: {type: String},
   description: {type: String},
   type: {type: String},
+  questions: {type: String},
+  time: {type: String},
   active: {type: Boolean, default: true}
 })
 

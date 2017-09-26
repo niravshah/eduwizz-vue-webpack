@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3><i class="fa fa-angle-right"></i> Edit Paper</h3>
-    <div  v-if="paper != ''" class="row mt">
+    <div v-if="paper != ''" class="row mt">
       <div class="col-lg-12">
         <div class="form-panel">
           <form class="form-horizontal style-form" novalidate>
@@ -33,6 +33,25 @@
                 <label class="checkbox-inline">
                   <input type="radio" id="biology" name="subject" v-model="paper.subject" value="biology"> Biology
                 </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 col-sm-2 control-label">Topic</label>
+              <div class="col-sm-6">
+                <input name="topic" v-model="paper.topic" type="text" class="form-control">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 col-sm-2 control-label">No. of Questions</label>
+              <div class="col-sm-6">
+                <input name="questions" v-model="paper.questions" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 col-sm-2 control-label">Time Allowed (mins)</label>
+              <div class="col-sm-6">
+                <input name="time" v-model="paper.time" type="text" class="form-control">
               </div>
             </div>
 
