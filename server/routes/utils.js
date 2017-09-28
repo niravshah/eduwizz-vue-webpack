@@ -21,7 +21,7 @@ module.exports = {
       callback(err, user)
     })
   },
-  createPaper: function (name, key, subject, description, type, cb) {
+  createPaper: function (name, key, subject, description, type, topic, cb) {
     const newPaper = new Paper()
     newPaper.sid = shortid.generate()
     newPaper.name = name
@@ -29,6 +29,7 @@ module.exports = {
     newPaper.subject = subject
     newPaper.description = description
     newPaper.type = type
+    newPaper.topic = topic
     newPaper.save(function (err, paper) {
       cb(err, paper)
     })

@@ -78,7 +78,7 @@ module.exports = function (passport) {
         if (papers.length > 0) {
           res.status(500).json({message: 'A paper with this file name already exists'})
         } else {
-          utils.createPaper(req.body.name, req.body.key, req.body.subject, req.body.description, req.body.type, function (err, paper) {
+          utils.createPaper(req.body.name, req.body.key, req.body.subject, req.body.description, req.body.type, req.body.topic, function (err, paper) {
             if (err) {
               res.status(500).json({message: err.message})
             } else {
