@@ -12,13 +12,15 @@
             <table class="table table-bordered table-striped table-condensed cf">
               <thead class="cf">
               <tr>
-                <th>Name</th>
+                <th>Topic</th>
+                <th>Paper</th>
                 <th>Description</th>
                 <th>Download Link</th>
               </tr>
               </thead>
               <tbody>
               <tr v-for="paper in papers">
+                <td data-title="name">{{paper.topic}}</td>
                 <td data-title="name">{{paper.name}}</td>
                 <td data-title="description">{{paper.description}}</td>
                 <td data-title="link"><a v-bind:href="'#/download?key=' + paper.key + '&name=' + paper.name">Link</a></td>
