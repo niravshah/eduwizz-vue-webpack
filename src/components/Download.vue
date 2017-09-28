@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div class="row mt">
+    <h3><i class="fa fa-angle-right"></i>Download: {{fileName}}</h3>
+    <div class="row center-container">
       <div class="col-md-12">
-        <h1>Download</h1>
+        <img class="center-block" src="/static/img/owl3_200_220.png"/>
       </div>
-    </div>
-    <div clas="row">
-      <div clas="col-md-12">
-        <a v-bind:disabled="!isValid" v-bind:href="downloadUrl">Click this Link to Download</a>
+      <div class="mt10 col-md-12 text-center">
+        <a v-bind:disabled="!isValid"
+           v-bind:href="downloadUrl">Click this Link to Download</a>
       </div>
     </div>
   </div>
@@ -24,6 +24,9 @@
     computed: {
       isValid: function () {
         return false
+      },
+      fileName: function () {
+        return this.$route.query.name
       }
     },
     created: function () {
@@ -36,4 +39,14 @@
     }
   }
 </script>
-<style></style>
+<style>
+  .text-center {
+    text-align: center
+  }
+
+  .center-container {
+    position: absolute;
+    top: 40%;
+    left: 50%
+  }
+</style>

@@ -21,7 +21,7 @@
               <tr v-for="paper in papers">
                 <td data-title="name">{{paper.name}}</td>
                 <td data-title="description">{{paper.description}}</td>
-                <td data-title="link"><a v-bind:href="'#/download?key=' + paper.key">Link</a></td>
+                <td data-title="link"><a v-bind:href="'#/download?key=' + paper.key + '&name=' + paper.name">Link</a></td>
               </tr>
 
               </tbody>
