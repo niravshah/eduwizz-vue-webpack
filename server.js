@@ -27,6 +27,7 @@ var login = require('./server/routes/api/auth')(passport)
 var aws = require('./server/routes/api/aws')(passport)
 var users = require('./server/routes/api/users')(passport)
 var papers = require('./server/routes/api/papers')(passport)
+var groups = require('./server/routes/api/groups')(passport)
 
 app.use(logger('dev'))
 app.use(bodyParser.json())
@@ -38,6 +39,7 @@ app.use(login)
 app.use(aws)
 app.use(users)
 app.use(papers)
+app.use(groups)
 
 app.use(express.static(path.join(__dirname, 'dist')))
 // Catch all other routes and return the index file

@@ -11,13 +11,22 @@
                 <input name="name" v-model="name" type="text" class="form-control">
               </div>
             </div>
-
             <div class="form-group">
               <label class="col-sm-2 col-sm-2 control-label">Username</label>
               <div class="col-sm-6">
                 <input name="username" v-model="username" type="text" class="form-control">
               </div>
             </div>
+            <div class="form-group">
+              <label class="col-sm-2 col-sm-2 control-label">Group</label>
+              <div class="col-sm-6">
+                <select v-model="group" class="form-control">
+                  <option disabled value="">Please select one</option>
+                  <option v-for="g in groups" v-bind:value="g.sid">{{g.name}}</option>
+                </select>
+              </div>
+            </div>
+
             <div class="form-group">
               <label class="col-sm-2 col-sm-2 control-label">Password</label>
               <div class="col-sm-6">
@@ -72,22 +81,33 @@
     name: 'AddUser',
     data: function () {
       return {
+        groups: '',
         name: '',
         username: '',
         password: '',
         rPassword: '',
         email: '',
+        group: '',
         maths: false,
         physics: false,
         chemistry: false,
         biology: false
       }
     },
+    created: function () {
+      var url = '/api/admin/groups'
+      axios.get(url).then(res => {
+        this.groups = res.data.groups
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     computed: {
       isValid: function () {
         return !this.errors.any() &&
           this.name !== '' &&
           this.username !== '' &&
+          this.group !== '' &&
           this.password !== '' &&
           this.rPassword !== '' &&
           this.email !== '' &&

@@ -27,6 +27,12 @@
               <span>Dashboard</span>
             </a>
           </li>
+          <li>
+            <a href="#/upload">
+              <i class="fa fa-barcode "></i>
+              <span>Upload Answer Sheets</span>
+            </a>
+          </li>
 
           <li v-if="isAdminLoggedIn()" class="sub-menu">
             <a href="javascript:;">
@@ -34,6 +40,7 @@
               <span>Admin</span>
             </a>
             <ul class="sub">
+              <li><a href="#/admin/groups">Groups</a></li>
               <li><a href="#/admin/users">Users</a></li>
               <li><a href="#/admin/papers">Papers</a></li>
             </ul>

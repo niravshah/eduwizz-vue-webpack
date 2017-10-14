@@ -18,6 +18,11 @@ import Papers from '@/components/Papers'
 import AddPaper from '@/components/Papers-Add'
 import EditPaper from '@/components/Papers-Edit'
 import DeletePaper from '@/components/Papers-Delete'
+import Upload from '@/components/Upload'
+import Group from '@/components/Group'
+import AddGroup from '@/components/Group-Add'
+import EditGroup from '@/components/Group-Edit'
+import DeleteGroup from '@/components/Group-Delete'
 
 Vue.use(Router)
 
@@ -79,6 +84,64 @@ var router = new Router({
             }
           }
         },
+        {
+          path: '/upload',
+          component: Upload,
+          meta: {auth: true}
+        },
+        {
+          path: '/admin/groups',
+          component: Group,
+          name: 'Group',
+          metas: {auth: true},
+          beforeEnter: (to, from, next) => {
+            if (Vue.hasAdminPerm()) {
+              next()
+            } else {
+              next('/error')
+            }
+          }
+        },
+        {
+          path: '/admin/groups/add',
+          component: AddGroup,
+          name: 'AddGroup',
+          metas: {auth: true},
+          beforeEnter: (to, from, next) => {
+            if (Vue.hasAdminPerm()) {
+              next()
+            } else {
+              next('/error')
+            }
+          }
+        },
+        {
+          path: '/admin/groups/edit',
+          component: EditGroup,
+          name: 'EditGroup',
+          metas: {auth: true},
+          beforeEnter: (to, from, next) => {
+            if (Vue.hasAdminPerm()) {
+              next()
+            } else {
+              next('/error')
+            }
+          }
+        },
+        {
+          path: '/admin/groups/delete',
+          component: DeleteGroup,
+          name: 'DeleteGroup',
+          metas: {auth: true},
+          beforeEnter: (to, from, next) => {
+            if (Vue.hasAdminPerm()) {
+              next()
+            } else {
+              next('/error')
+            }
+          }
+        },
+
         {
           path: '/admin/users',
           component: Users,

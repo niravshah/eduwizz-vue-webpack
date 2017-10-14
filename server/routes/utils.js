@@ -1,11 +1,22 @@
 const User = require('../models/user')
 const Paper = require('../models/paper')
+const Group = require('../models/group')
 const bcrypt = require('bcrypt')
 const shortid = require('shortid')
 const saltRounds = 10
 
 module.exports = {
-
+  createGroup: function (name, description, phone, email, callback) {
+    const newGroup = new Group()
+    newGroup.sid = shortid.generate()
+    newGroup.name = name
+    newGroup.description = description
+    newGroup.contactPhone = phone
+    newGroup.contactEmail = email
+    newGroup.save(function (err, group) {
+      callback(err, group)
+    })
+  },
   createUser: function (name, email, password, username, maths, physics, chemistry, biology, callback) {
     const newUser = new User()
     newUser.sid = shortid.generate()
