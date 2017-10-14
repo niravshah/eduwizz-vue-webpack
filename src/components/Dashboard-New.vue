@@ -1,15 +1,15 @@
 <template>
-  <div class="row">
+  <div class="row h100">
     <div class="col-lg-9 main-chart">
       <div class="row mt">
-        <div v-if="hasMathsPerm()" class="col-md-4 col-sm-4 mb">
-          <a href="#/maths">
+        <div class="col-md-4 col-sm-4 mb">
+          <a href="#/upload">
             <div class="darkblue-panel pn">
               <div class="darkblue-header">
-                <h5>MATHS</h5>
+                <h5>UPLOAD ANSWER SHEET</h5>
               </div>
               <div class="mt mb text-center">
-                <img src="/static/img/maths.png">
+                <img src="/static/img/answer-sheet.png">
               </div>
               <footer>
                 <div class="centered">
@@ -19,52 +19,20 @@
             </div>
           </a>
         </div>
-        <div v-if="hasPhysicsPerm()" class="col-md-4 col-sm-4 mb">
-          <a href="#/physics">
+
+
+        <div class="col-md-4 col-sm-4 mb">
+          <a href="#/results">
             <div class="darkblue-panel pn">
               <div class="darkblue-header">
-                <h5>PHYSICS</h5>
+                <h5>VIEW RESULTS</h5>
               </div>
               <div class="mt mb text-center">
-                <img src="/static/img/physics.png">
+                <img src="/static/img/results.png">
               </div>
               <footer>
                 <div class="centered">
-                  <h5><i class="fa fa-file-text-o"></i> {{counts.physics}} Papers</h5>
-                </div>
-              </footer>
-            </div>
-          </a>
-        </div>
-        <div v-if="hasBiologyPerm()" class="col-md-4 col-sm-4 mb">
-          <a href="#/biology">
-            <div class="darkblue-panel pn">
-              <div class="darkblue-header">
-                <h5>BIOLOGY</h5>
-              </div>
-              <div class="mt mb text-center">
-                <img src="/static/img/biology.png">
-              </div>
-              <footer>
-                <div class="centered">
-                  <h5><i class="fa fa-file-text-o"></i> {{counts.biology}} Papers</h5>
-                </div>
-              </footer>
-            </div>
-          </a>
-        </div>
-        <div v-if="hasChemistryPerm()" class="col-md-4 col-sm-4 mb">
-          <a href="#/chemistry">
-            <div class="darkblue-panel pn">
-              <div class="darkblue-header">
-                <h5>CHEMISTRY</h5>
-              </div>
-              <div class="mt mb text-center">
-                <img src="/static/img/chemistry.png">
-              </div>
-              <footer>
-                <div class="centered">
-                  <h5><i class="fa fa-file-text-o"></i> {{counts.physics}} Papers</h5>
+                  <h5><i class="fa fa-file-text-o"></i> {{counts.maths}} Papers</h5>
                 </div>
               </footer>
             </div>
@@ -72,137 +40,19 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-3 ds">
-      <!--COMPLETED ACTIONS DONUTS CHART-->
-      <h3>NOTIFICATIONS</h3>
-
-      <!-- First Action -->
+    <div class="col-lg-3 ds h100">
       <div class="desc">
         <div class="thumb">
-          <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
+          <img class="img-circle" src="/static/img/owl_48_48.png" width="45px" height="45px" align="">
         </div>
         <div class="details">
-          <p><muted>2 Minutes Ago</muted><br/>
-            <a href="#">James Brown</a> subscribed to your newsletter.<br/>
+          <p>
+            <muted>18 Hours Ago</muted><br/>
+            <a href="#">DIVYA MANIAN</a>
+            answered Maths Numbers 1 paper
           </p>
         </div>
       </div>
-      <!-- Second Action -->
-      <div class="desc">
-        <div class="thumb">
-          <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-        </div>
-        <div class="details">
-          <p><muted>3 Hours Ago</muted><br/>
-            <a href="#">Diana Kennedy</a> purchased a year subscription.<br/>
-          </p>
-        </div>
-      </div>
-      <!-- Third Action -->
-      <div class="desc">
-        <div class="thumb">
-          <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-        </div>
-        <div class="details">
-          <p><muted>7 Hours Ago</muted><br/>
-            <a href="#">Brandon Page</a> purchased a year subscription.<br/>
-          </p>
-        </div>
-      </div>
-      <!-- Fourth Action -->
-      <div class="desc">
-        <div class="thumb">
-          <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-        </div>
-        <div class="details">
-          <p><muted>11 Hours Ago</muted><br/>
-            <a href="#">Mark Twain</a> commented your post.<br/>
-          </p>
-        </div>
-      </div>
-      <!-- Fifth Action -->
-      <div class="desc">
-        <div class="thumb">
-          <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-        </div>
-        <div class="details">
-          <p><muted>18 Hours Ago</muted><br/>
-            <a href="#">Daniel Pratt</a> purchased a wallet in your store.<br/>
-          </p>
-        </div>
-      </div>
-
-      <!-- USERS ONLINE SECTION -->
-      <h3>TEAM MEMBERS</h3>
-      <!-- First Member -->
-      <div class="desc">
-        <div class="thumb">
-          <img class="img-circle" src="assets/img/ui-divya.jpg" width="35px" height="35px" align="">
-        </div>
-        <div class="details">
-          <p><a href="#">DIVYA MANIAN</a><br/>
-            <muted>Available</muted>
-          </p>
-        </div>
-      </div>
-      <!-- Second Member -->
-      <div class="desc">
-        <div class="thumb">
-          <img class="img-circle" src="assets/img/ui-sherman.jpg" width="35px" height="35px" align="">
-        </div>
-        <div class="details">
-          <p><a href="#">DJ SHERMAN</a><br/>
-            <muted>I am Busy</muted>
-          </p>
-        </div>
-      </div>
-      <!-- Third Member -->
-      <div class="desc">
-        <div class="thumb">
-          <img class="img-circle" src="assets/img/ui-danro.jpg" width="35px" height="35px" align="">
-        </div>
-        <div class="details">
-          <p><a href="#">DAN ROGERS</a><br/>
-            <muted>Available</muted>
-          </p>
-        </div>
-      </div>
-      <!-- Fourth Member -->
-      <div class="desc">
-        <div class="thumb">
-          <img class="img-circle" src="assets/img/ui-zac.jpg" width="35px" height="35px" align="">
-        </div>
-        <div class="details">
-          <p><a href="#">Zac Sniders</a><br/>
-            <muted>Available</muted>
-          </p>
-        </div>
-      </div>
-      <!-- Fifth Member -->
-      <div class="desc">
-        <div class="thumb">
-          <img class="img-circle" src="assets/img/ui-sam.jpg" width="35px" height="35px" align="">
-        </div>
-        <div class="details">
-          <p><a href="#">Marcel Newman</a><br/>
-            <muted>Available</muted>
-          </p>
-        </div>
-      </div>
-
-      <!-- CALENDAR-->
-      <div id="calendar" class="mb">
-        <div class="panel green-panel no-margin">
-          <div class="panel-body">
-            <div id="date-popover" class="popover top" style="cursor: pointer; disadding: block; margin-left: 33%; margin-top: -50px; width: 175px;">
-              <div class="arrow"></div>
-              <h3 class="popover-title" style="disadding: none;"></h3>
-              <div id="date-popover-content" class="popover-content"></div>
-            </div>
-            <div id="my-calendar"></div>
-          </div>
-        </div>
-      </div><!-- / calendar -->
 
     </div><!-- /col-lg-3 -->
   </div>
@@ -211,7 +61,7 @@
   import Vue from 'vue'
   import axios from 'axios'
   export default {
-    name: 'dashboard',
+    name: 'NewDashboard',
     data: function () {
       return {
         counts: {
@@ -246,4 +96,11 @@
     }
   }
 </script>
-<style></style>
+<style>
+  .ds .thumb {
+    width: 50px;
+    margin: 0 10px 0 10px;
+    display: block;
+    float: left;
+  }
+</style>

@@ -65,6 +65,11 @@
     color: $accent-color;
   }
 
+  .ds h3 {
+    background: $default-primary-color;
+
+  }
+
   ul.top-menu > li > .logout {
     color: #f2f2f2;
     border: 1px solid $accent-color !important;
@@ -210,5 +215,9 @@
 
   .accentColor {
     color: $accent-color
+  }
+
+  .h100 {
+    height: 100%;
   }
 </style>

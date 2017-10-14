@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
 import Login from '@/components/Login'
-import Dashboard from '@/components/Dashboard'
+import NewDashboard from '@/components/Dashboard-New'
 import Math from '@/components/Math'
 import Physics from '@/components/Physics'
 import Biology from '@/components/Biology'
@@ -33,7 +33,7 @@ var router = new Router({
       component: Home,
       meta: {auth: true},
       children: [
-        {path: '', name: 'Home', component: Dashboard, meta: {auth: true}},
+        {path: '', name: 'Home', component: NewDashboard, meta: {auth: true}},
         {path: '/error', component: Error, metas: {auth: false}},
         {path: '/download', component: Download, metas: {auth: true}},
         {

@@ -27,12 +27,12 @@
               <span>Dashboard</span>
             </a>
           </li>
-          <li>
-            <a href="#/upload">
-              <i class="fa fa-barcode "></i>
-              <span>Upload Answer Sheets</span>
-            </a>
-          </li>
+          <!--  <li>
+              <a href="#/upload">
+                <i class="fa fa-barcode "></i>
+                <span>Upload Answer Sheets</span>
+              </a>
+            </li>-->
 
           <li v-if="isAdminLoggedIn()" class="sub-menu">
             <a href="javascript:;">
@@ -49,7 +49,7 @@
       </div>
     </aside>
     <section id="main-content">
-      <section class="wrapper">
+      <section id="main-wrapper" class="wrapper">
         <router-view></router-view>
       </section>
     </section>
@@ -85,5 +85,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+  #main-wrapper {
+    height: 800px
+  }
 </style>
