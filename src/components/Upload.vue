@@ -46,7 +46,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button v-if="!uploading" v-bind:disabled="uploading" type="button" class="close" data-dismiss="modal">
+            <button type="button" class="close" data-dismiss="modal">
               &times;
             </button>
             <h4 class="modal-title">Are you sure?</h4>
@@ -57,21 +57,19 @@
             </div>
             <transition name="fade">
               <div v-if="uploading">
-                <radial-progress-bar :diameter="200"
-                                     :completed-steps="completedSteps"
-                                     :total-steps="totalSteps"
-                                     :startColor="accentColor"
-                                     :stopColor="accentColor"
-                                     style="margin: auto">
-                  <p>Total: {{ totalSteps }}</p>
-                  <p>Completed: {{ completedSteps }}</p>
-                </radial-progress-bar>
+                <div v-for="f in files" class="progress">
+                  <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+                       v-bind:style="{ width: f.percent + '%' }">
+                    {{f.percent}}% Complete ({{f.name}})
+                  </div>
+                </div>
+
               </div>
             </transition>
           </div>
           <transition name="fade">
-            <div v-if="!uploading" class="modal-footer">
-              <button v-bind:disabled="uploading" type="button" class="btn btn-default" data-dismiss="modal">Close
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close
               </button>
               <div v-bind:disabled="uploading" v-on:click="modalSend()" class="btn btn-theme" style="width: 100px"><i
                 class="fa fa-send"></i> Yes
@@ -85,7 +83,6 @@
 </template>
 <script>
   import axios from 'axios'
-  import RadialProgressBar from 'vue-radial-progress/dist/vue-radial-progress.min.js'
 
   export default {
     name: 'Upload',
@@ -144,38 +141,39 @@
         image.src = dataURL
 
         image.onload = function () {
+          var canvas, context, newWidth, newHeight
           var width = image.width
           var height = image.height
           var shouldResize = (width > maxWidth) || (height > maxHeight)
           if (!shouldResize) {
-            var dat = {}
-            dat['name'] = name
-            dat['file'] = dataURL
-            dat['url'] = signedUrl
-            _this.files.push(dat)
-            return
-          }
-          var newWidth
-          var newHeight
-          if (width > height) {
-            newHeight = height * (maxWidth / width)
-            newWidth = maxWidth
+            canvas = document.createElement('canvas')
+            canvas.width = width
+            canvas.height = height
+            context = canvas.getContext('2d')
+            context.drawImage(this, 0, 0, width, height)
           } else {
-            newWidth = width * (maxHeight / height)
-            newHeight = maxHeight
+            if (width > height) {
+              newHeight = height * (maxWidth / width)
+              newWidth = maxWidth
+            } else {
+              newWidth = width * (maxHeight / height)
+              newHeight = maxHeight
+            }
+            canvas = document.createElement('canvas')
+            canvas.width = newWidth
+            canvas.height = newHeight
+            context = canvas.getContext('2d')
+            context.drawImage(this, 0, 0, newWidth, newHeight)
           }
-          var canvas = document.createElement('canvas')
-          canvas.width = newWidth
-          canvas.height = newHeight
-          var context = canvas.getContext('2d')
-          context.drawImage(this, 0, 0, newWidth, newHeight)
 
           if (canvas.toBlob) {
             canvas.toBlob(
               function (blob) {
                 var dat = {}
+                dat['name'] = name
                 dat['file'] = blob
                 dat['url'] = signedUrl
+                dat['percent'] = 0
                 _this.files.push(dat)
               },
               fileType
@@ -187,14 +185,17 @@
         }
       },
       sendAnswerSheets: function () {
+        var _this = this
         for (var i = 0; i < this.files.length; i++) {
           var dat = this.files[i]
           let signedUrl = dat['url']
           let data = dat['file']
+          let currentCounter = i
           var config = {
             onUploadProgress: function (progressEvent) {
               var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-              console.log('Upload Progress: ', percentCompleted)
+              _this.files[currentCounter]['percent'] = percentCompleted
+              console.log('Upload Progress: ', currentCounter, percentCompleted)
             }
           }
           axios.put(signedUrl, data, config).then(resp => {
@@ -211,9 +212,6 @@
         console.log('Sending Files')
         this.sendAnswerSheets()
       }
-    },
-    components: {
-      RadialProgressBar
     }
   }
 </script>
