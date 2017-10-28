@@ -58,12 +58,18 @@
             <transition name="fade">
               <div v-if="uploading">
                 <div v-for="f in files" class="progress">
-                  <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+                  <div class="progress-bar progress-bar-rb" role="progressbar"
                        v-bind:style="{ width: f.percent + '%' }">
                     {{f.percent}}% Complete ({{f.name}})
                   </div>
                 </div>
-
+              </div>
+            </transition>
+            <p>{{totalToUpload}}</p>
+            <p>{{completedUpload}}</p>
+            <transition name="fade">
+              <div v-if="completedUpload>=totalToUpload">
+                <p>All Uploads Completed</p>
               </div>
             </transition>
           </div>
@@ -83,6 +89,7 @@
 </template>
 <script>
   import axios from 'axios'
+  import Vue from 'vue'
 
   export default {
     name: 'Upload',
@@ -93,10 +100,11 @@
         qid: '',
         okToSend: true,
         uploadErrors: [],
-        completedSteps: 2,
-        totalSteps: 5,
         accentColor: '#FF4081',
-        uploading: false
+        uploading: false,
+        totalToUpload: 100,
+        completedUpload: 0,
+        loggedInUser: ''
       }
     },
     computed: {
@@ -107,18 +115,22 @@
         return this.okToSend && this.files.length !== 0
       }
     },
+    created: function () {
+      this.loggedInUser = JSON.parse(Vue.loggedInUser())
+    },
     methods: {
       getSignedUrl: function (files) {
         for (var i = 0; i < files.length; i++) {
           const file = files[i]
-          const url = '/api/aws/sign/put?name=' + file.name + '&type=' + file.type
+          const key = this.loggedInUser.sid + '_' + this.qid + '_' + this.files.length + '_' + file.name
+          const url = '/api/aws/sign/put?name=' + key + '&type=' + file.type
           this.okToSend = false
           var _this = this
           axios.get(url).then(res => {
             var reader = new FileReader()
             reader.readAsDataURL(file)
             reader.onload = function (e) {
-              _this.processFile(e.target.result, file.type, res.data.signedData, file.name)
+              _this.processFile(e.target.result, file.type, res.data.signedData, file.name, key)
               var img = document.createElement('img')
               img.src = e.target.result
               var pane = document.getElementById('previewPane')
@@ -132,7 +144,7 @@
         console.log(this.files)
       },
 
-      processFile: function (dataURL, fileType, signedUrl, name) {
+      processFile: function (dataURL, fileType, signedUrl, name, key) {
         var maxWidth = 800
         var maxHeight = 800
         var _this = this
@@ -171,6 +183,7 @@
               function (blob) {
                 var dat = {}
                 dat['name'] = name
+                dat['key'] = key
                 dat['file'] = blob
                 dat['url'] = signedUrl
                 dat['percent'] = 0
@@ -186,6 +199,8 @@
       },
       sendAnswerSheets: function () {
         var _this = this
+        _this.totalToUpload = _this.files.length * 100
+        _this.completedUpload = 0
         for (var i = 0; i < this.files.length; i++) {
           var dat = this.files[i]
           let signedUrl = dat['url']
@@ -195,6 +210,7 @@
             onUploadProgress: function (progressEvent) {
               var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
               _this.files[currentCounter]['percent'] = percentCompleted
+              _this.completedUpload += percentCompleted
               console.log('Upload Progress: ', currentCounter, percentCompleted)
             }
           }
@@ -265,5 +281,9 @@
   .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
   {
     opacity: 0
+  }
+
+  .progress-bar-rb {
+    background-color: #303F9F;
   }
 </style>
