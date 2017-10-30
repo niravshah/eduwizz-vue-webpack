@@ -7,7 +7,6 @@ var http = require('http')
 
 var app = express()
 
-
 require('dotenv').config()
 
 var mongoose = require('mongoose')
@@ -28,6 +27,7 @@ var aws = require('./server/routes/api/aws')(passport)
 var users = require('./server/routes/api/users')(passport)
 var papers = require('./server/routes/api/papers')(passport)
 var groups = require('./server/routes/api/groups')(passport)
+var answerKeys = require('./server/routes/api/answerSheets')(passport)
 
 app.use(logger('dev'))
 app.use(bodyParser.json())
@@ -40,6 +40,7 @@ app.use(aws)
 app.use(users)
 app.use(papers)
 app.use(groups)
+app.use(answerKeys)
 
 app.use(express.static(path.join(__dirname, 'dist')))
 // Catch all other routes and return the index file

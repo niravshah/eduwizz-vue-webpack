@@ -1,9 +1,12 @@
 <template>
   <div>
     <h3><i class="fa fa-angle-right"></i> Upload Answer Sheet</h3>
-    <div v-if="uploadErrors.length != 0" class="row">
-      <div clas="col-md-12">
-        <p v-for="e in uploadErrors">{{e}}</p>
+    <div class="row">
+      <div class="col-md-12">
+        <div v-if="errors.length != 0" class="alert alert-danger" role="alert">
+          <p v-for="e in errors">{{e}}</p>
+        </div>
+
       </div>
     </div>
     <div class="row mt">
@@ -33,8 +36,7 @@
     <div class="row mt">
       <div class="col-md-12">
         <h4>4. Upload</h4>
-        <!-- v-bind:disabled="!isOkToSend" -->
-        <div class="btn btn-theme"
+        <div v-bind:disabled="!isOkToSend" class="btn btn-theme"
              style="width: 150px" data-toggle="modal" data-target="#myModal" data-backdrop="static"
              data-keyboard="false"><i
           class="fa fa-cloud-upload"></i> Upload
@@ -42,6 +44,7 @@
         <span id="saveSpinner"></span>
       </div>
     </div>
+    <!-- Upload Modal START-->
     <div id="myModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -52,21 +55,22 @@
             <h4 class="modal-title">Are you sure?</h4>
           </div>
           <div class="modal-body">
+            <div v-if="uploadErrors.length != 0" class="alert alert-danger" role="alert">
+              <p v-for="e in uploadErrors">{{e}}</p>
+            </div>
             <div v-if="!uploading">
               <p>Total Files to send: {{files.length}}</p>
             </div>
             <transition name="fade">
               <div v-if="uploading">
                 <div v-for="f in files" class="progress">
-                  <div class="progress-bar progress-bar-rb" role="progressbar"
+                  <div v-if="f.percent>0" class="progress-bar progress-bar-rb" role="progressbar"
                        v-bind:style="{ width: f.percent + '%' }">
                     {{f.percent}}% Complete ({{f.name}})
                   </div>
                 </div>
               </div>
             </transition>
-            <p>{{totalToUpload}}</p>
-            <p>{{completedUpload}}</p>
             <transition name="fade">
               <div v-if="completedUpload>=totalToUpload">
                 <p>All Uploads Completed</p>
@@ -85,6 +89,7 @@
         </div>
       </div>
     </div>
+    <!-- Upload Modal END-->
   </div>
 </template>
 <script>
@@ -98,13 +103,16 @@
         signedUrl: '',
         files: [],
         qid: '',
+        sid: '',
         okToSend: true,
+        errors: [],
         uploadErrors: [],
         accentColor: '#FF4081',
         uploading: false,
         totalToUpload: 100,
         completedUpload: 0,
-        loggedInUser: ''
+        loggedInUser: '',
+        uploadedKeys: []
       }
     },
     computed: {
@@ -117,15 +125,16 @@
     },
     created: function () {
       this.loggedInUser = JSON.parse(Vue.loggedInUser())
+      this.sid = this.loggedInUser.sid
     },
     methods: {
       getSignedUrl: function (files) {
+        var _this = this
         for (var i = 0; i < files.length; i++) {
           const file = files[i]
           const key = this.loggedInUser.sid + '_' + this.qid + '_' + this.files.length + '_' + file.name
           const url = '/api/aws/sign/put?name=' + key + '&type=' + file.type
           this.okToSend = false
-          var _this = this
           axios.get(url).then(res => {
             var reader = new FileReader()
             reader.readAsDataURL(file)
@@ -138,10 +147,9 @@
             }
             this.okToSend = true
           }).catch(err => {
-            console.log(err)
+            _this.errors.push('Error getting signed url from Eduwizz. Please contact administrator. ' + err.message)
           })
         }
-        console.log(this.files)
       },
 
       processFile: function (dataURL, fileType, signedUrl, name, key) {
@@ -153,6 +161,7 @@
         image.src = dataURL
 
         image.onload = function () {
+          var _this = this
           var canvas, context, newWidth, newHeight
           var width = image.width
           var height = image.height
@@ -194,39 +203,47 @@
           }
         }
         image.onerror = function () {
-          alert('There was an error processing your file!')
+          _this.errors.push('Error optimizing this image. Please contact administrator.')
         }
+      },
+      modalSend: function () {
+        this.uploading = true
+        this.sendAnswerSheets()
       },
       sendAnswerSheets: function () {
         var _this = this
         _this.totalToUpload = _this.files.length * 100
         _this.completedUpload = 0
+        var totalFiles = this.files.length
         for (var i = 0; i < this.files.length; i++) {
           var dat = this.files[i]
           let signedUrl = dat['url']
           let data = dat['file']
           let currentCounter = i
+          let currentKey = dat['key']
           var config = {
             onUploadProgress: function (progressEvent) {
               var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
               _this.files[currentCounter]['percent'] = percentCompleted
               _this.completedUpload += percentCompleted
-              console.log('Upload Progress: ', currentCounter, percentCompleted)
             }
           }
           axios.put(signedUrl, data, config).then(resp => {
-            console.log('received response')
-            console.log(resp)
+            _this.uploadedKeys.push(currentKey)
+            if (currentCounter === totalFiles - 1) {
+              var keyUrl = '/api/keys/' + this.qid + '/' + this.sid
+              axios.patch(keyUrl, {keys: _this.uploadedKeys})
+                .then(resp => {
+                  console.log('Key Update Response', resp)
+                })
+                .catch(err => {
+                  _this.uploadErrors.push('Files uploaded to Amazon. Error updating Eduwizz. ' + err.message)
+                })
+            }
           }).catch(err => {
-            console.log('received error')
-            console.log(err)
+            _this.uploadErrors.push('Error uploading file to Amazon. ' + err.message)
           })
         }
-      },
-      modalSend: function () {
-        this.uploading = true
-        console.log('Sending Files')
-        this.sendAnswerSheets()
       }
     }
   }
