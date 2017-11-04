@@ -7,7 +7,7 @@ var answerSheetSchema = new Schema({
   studentSid: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
   assessorSid: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   keys: {type: [String]},
-  status: {type: String, enum: ['NEW', 'CORRECTED'], default: 'NEW'}
+  status: {type: String, enum: ['NEW', 'CORRECTED'], default: 'NEW', required: true}
 
 })
 

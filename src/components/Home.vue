@@ -42,7 +42,8 @@
             <ul class="sub">
               <li><a href="#/admin/groups">Groups</a></li>
               <li><a href="#/admin/users">Users</a></li>
-              <li><a href="#/admin/papers">Papers</a></li>
+              <!--li><a href="#/admin/papers">Papers</a></li-->
+              <li><a href="#/admin/uploaded">Uploaded Answers</a></li>
             </ul>
           </li>
         </ul>
@@ -85,7 +86,11 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  #main-wrapper {
-    height: 800px
+  @media (min-width: 768px) {
+    #main-wrapper {
+      height: 800px
+    }
   }
+
+
 </style>

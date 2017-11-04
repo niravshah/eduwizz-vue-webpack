@@ -3,8 +3,8 @@
     <h3><i class="fa fa-angle-right"></i> Upload Answer Sheet</h3>
     <div class="row">
       <div class="col-md-12">
-        <div v-if="errors.length != 0" class="alert alert-danger" role="alert">
-          <p v-for="e in errors">{{e}}</p>
+        <div v-if="pageErrors.length != 0" class="alert alert-danger" role="alert">
+          <p v-for="e in pageErrors">{{e}}</p>
         </div>
 
       </div>
@@ -79,9 +79,10 @@
           </div>
           <transition name="fade">
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close
+              <button type="button" class="btn btn-default" v-on:click="closeBtnClick()" data-dismiss="modal">Close
               </button>
-              <div v-bind:disabled="uploading" v-on:click="modalSend()" class="btn btn-theme" style="width: 100px"><i
+              <div v-bind:disabled="uploading" v-on:click="sendAnswerSheets()" class="btn btn-theme"
+                   style="width: 100px"><i
                 class="fa fa-send"></i> Yes
               </div>
             </div>
@@ -105,7 +106,7 @@
         qid: '',
         sid: '',
         okToSend: true,
-        errors: [],
+        pageErrors: [],
         uploadErrors: [],
         accentColor: '#FF4081',
         uploading: false,
@@ -147,11 +148,10 @@
             }
             this.okToSend = true
           }).catch(err => {
-            _this.errors.push('Error getting signed url from Eduwizz. Please contact administrator. ' + err.message)
+            _this.pageErrors.push('Error getting signed url from Eduwizz. Please contact administrator. ' + err.message)
           })
         }
       },
-
       processFile: function (dataURL, fileType, signedUrl, name, key) {
         var maxWidth = 800
         var maxHeight = 800
@@ -161,7 +161,7 @@
         image.src = dataURL
 
         image.onload = function () {
-          var _this = this
+          // var _this = this
           var canvas, context, newWidth, newHeight
           var width = image.width
           var height = image.height
@@ -203,23 +203,20 @@
           }
         }
         image.onerror = function () {
-          _this.errors.push('Error optimizing this image. Please contact administrator.')
+          _this.pageErrors.push('Error optimizing this image. Please contact administrator.')
         }
-      },
-      modalSend: function () {
-        this.uploading = true
-        this.sendAnswerSheets()
       },
       sendAnswerSheets: function () {
         var _this = this
+        _this.uploading = true
         _this.totalToUpload = _this.files.length * 100
         _this.completedUpload = 0
-        var totalFiles = this.files.length
+        var totalFiles = _this.files.length
         for (var i = 0; i < this.files.length; i++) {
+          let currentCounter = i
           var dat = this.files[i]
           let signedUrl = dat['url']
           let data = dat['file']
-          let currentCounter = i
           let currentKey = dat['key']
           var config = {
             onUploadProgress: function (progressEvent) {
@@ -228,22 +225,29 @@
               _this.completedUpload += percentCompleted
             }
           }
+          // console.log(signedUrl, data)
+          // axios.put('/api/aws/stub', [], config).then(resp => {
           axios.put(signedUrl, data, config).then(resp => {
             _this.uploadedKeys.push(currentKey)
             if (currentCounter === totalFiles - 1) {
               var keyUrl = '/api/keys/' + this.qid + '/' + this.sid
-              axios.patch(keyUrl, {keys: _this.uploadedKeys})
+              axios.patch(keyUrl, {keys: _this.uploadedKeys, status: 'NEW'})
                 .then(resp => {
-                  console.log('Key Update Response', resp)
+                  // console.log('Key Update Response', resp)
                 })
                 .catch(err => {
-                  _this.uploadErrors.push('Files uploaded to Amazon. Error updating Eduwizz. ' + err.message)
+                  _this.uploadErrors.push('Files uploaded to Amazon. But error updating Eduwizz. ' + err.message)
                 })
             }
           }).catch(err => {
             _this.uploadErrors.push('Error uploading file to Amazon. ' + err.message)
           })
         }
+      },
+      closeBtnClick: function () {
+        // if (this.completedUpload >= this.totalToUpload) {
+        this.$router.push('/')
+        // }
       }
     }
   }

@@ -19,8 +19,6 @@
             </div>
           </a>
         </div>
-
-
         <div class="col-md-4 col-sm-4 mb">
           <a href="#/results">
             <div class="darkblue-panel pn">
@@ -39,6 +37,8 @@
           </a>
         </div>
       </div>
+      <!-- Leader Board START -->
+      <!--
       <div class="row mt">
         <div class="col-md-12">
           <h4><i class="fa fa-angle-right"></i> Your Team Leaderboard</h4>
@@ -78,23 +78,28 @@
           </div>
         </div>
       </div>
+      -->
+      <!-- Leader Board END -->
     </div>
-    <div class="col-lg-3 ds h100">
-      <div class="desc">
-        <div class="thumb">
-          <img class="img-circle" src="/static/img/owl_48_48.png" width="45px" height="45px" align="">
-        </div>
-        <div class="details">
-          <p>
-            <muted>18 Hours Ago</muted>
-            <br/>
-            <a href="#">DIVYA MANIAN</a>
-            answered Maths Numbers 1 paper
-          </p>
-        </div>
+    <!--div class="col-lg-3 ds h100" -->
+    <!--Activity Stream START -->
+    <!--
+    <div class="desc">
+      <div class="thumb">
+        <img class="img-circle" src="/static/img/owl_48_48.png" width="45px" height="45px" align="">
       </div>
-
-    </div><!-- /col-lg-3 -->
+      <div class="details">
+        <p>
+          <span class="muted">18 Hours Ago</span>
+          <br/>
+          <a href="#">DIVYA MANIAN</a>
+          answered Maths Numbers 1 paper
+        </p>
+      </div>
+    </div>
+    -->
+    <!--Activity Stream END -->
+    <!--/div-->
   </div>
 </template>
 <script>
@@ -169,6 +174,13 @@
     margin: 0 10px 0 10px;
     display: block;
     float: left;
+  }
+
+  .ds span.muted {
+    font-size: 9px;
+    text-transform: uppercase;
+    font-style: italic;
+    color: #666666;
   }
 
   .main-box.no-header {

@@ -8,6 +8,7 @@ const s3 = new AWS.S3({
   signatureVersion: process.env.AWS_SIGNATURE_VERSION,
   region: process.env.AWS_REGION
 })
+
 AWS.config.update({accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY})
 const signedUrlExpireSeconds = 60 * 5
 
@@ -47,7 +48,6 @@ module.exports = function (passport) {
   router.get('/api/aws/sign/put', function (req, res) {
     const bucketName = process.env.AWS_BUCKET
     const url = 'https://' + bucketName + '.s3.amazonaws.com/' + req.query.name
-
     s3.getSignedUrl('putObject', {
       Bucket: process.env.AWS_BUCKET,
       Key: req.query.name,
@@ -61,6 +61,10 @@ module.exports = function (passport) {
         res.json({signedData: data, url: url})
       }
     })
+  })
+
+  router.put('/api/aws/stub', function (req, res) {
+    res.json({message: 'ok'})
   })
 
   return router

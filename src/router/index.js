@@ -23,6 +23,8 @@ import Group from '@/components/Group'
 import AddGroup from '@/components/Group-Add'
 import EditGroup from '@/components/Group-Edit'
 import DeleteGroup from '@/components/Group-Delete'
+import Results from '@/components/Answers-Corrected'
+import Uploaded from '@/components/Answers-ToCorrect'
 
 Vue.use(Router)
 
@@ -88,6 +90,23 @@ var router = new Router({
           path: '/upload',
           component: Upload,
           meta: {auth: true}
+        },
+        {
+          path: '/results',
+          component: Results,
+          meta: {auth: true}
+        },
+        {
+          path: '/admin/uploaded',
+          component: Uploaded,
+          meta: {auth: true},
+          beforeEnter: (to, from, next) => {
+            if (Vue.hasAdminPerm()) {
+              next()
+            } else {
+              next('/error')
+            }
+          }
         },
         {
           path: '/admin/groups',
