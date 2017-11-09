@@ -16,7 +16,8 @@
                 <th>Question Paper Id</th>
                 <th>Student Id</th>
                 <th>Status</th>
-                <th>Download Corrected Paper</th>
+                <th>Submitted Papers</th>
+                <th>Corrected Papers</th>
               </tr>
               </thead>
               <tbody>
@@ -26,6 +27,10 @@
                 <td data-title="Status">{{a.status}}</td>
                 <td data-title="Keys">
                   <a v-for="key in a.keys" v-bind:href="'#/download?key=' + key">Link</a>
+                </td>
+                <td data-title="Corrected Papers">
+                  <a v-bind:href="'#/admin/papers/correct/upload?sid='+a.sid + '&qid=' + a.questionPaperId"
+                     class="pr10">Upload</a>
                 </td>
               </tr>
               </tbody>
@@ -54,7 +59,7 @@
       this.loggedInUser = JSON.parse(Vue.loggedInUser())
       this.sid = this.loggedInUser.sid
 
-      var url = '/api/answers/to-correct'
+      var url = '/api/papers/status/new'
       axios.get(url).then(res => {
         this.papers = res.data.papers
       }).catch(err => {

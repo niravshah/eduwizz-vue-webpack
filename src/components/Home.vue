@@ -43,7 +43,7 @@
               <li><a href="#/admin/groups">Groups</a></li>
               <li><a href="#/admin/users">Users</a></li>
               <!--li><a href="#/admin/papers">Papers</a></li-->
-              <li><a href="#/admin/uploaded">Uploaded Answers</a></li>
+              <li><a href="#/admin/papers/correct">Correct Papers</a></li>
             </ul>
           </li>
         </ul>

@@ -3,7 +3,7 @@
     <div class="col-lg-9 main-chart">
       <div class="row mt">
         <div class="col-md-4 col-sm-4 mb">
-          <a href="#/upload">
+          <a href="#/answers/submit">
             <div class="darkblue-panel pn">
               <div class="darkblue-header">
                 <h5>UPLOAD ANSWER SHEET</h5>
@@ -19,6 +19,7 @@
             </div>
           </a>
         </div>
+
         <div class="col-md-4 col-sm-4 mb">
           <a href="#/results">
             <div class="darkblue-panel pn">

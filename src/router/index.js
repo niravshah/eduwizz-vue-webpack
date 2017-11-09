@@ -18,13 +18,15 @@ import Papers from '@/components/Papers'
 import AddPaper from '@/components/Papers-Add'
 import EditPaper from '@/components/Papers-Edit'
 import DeletePaper from '@/components/Papers-Delete'
-import Upload from '@/components/Upload'
+
 import Group from '@/components/Group'
 import AddGroup from '@/components/Group-Add'
 import EditGroup from '@/components/Group-Edit'
 import DeleteGroup from '@/components/Group-Delete'
 import Results from '@/components/Answers-Corrected'
+import SubmitAnswers from '@/components/Answers-Submit'
 import Uploaded from '@/components/Answers-ToCorrect'
+import UploadCorrected from '@/components/Answers-UploadCorrected'
 
 Vue.use(Router)
 
@@ -87,8 +89,8 @@ var router = new Router({
           }
         },
         {
-          path: '/upload',
-          component: Upload,
+          path: '/answers/submit',
+          component: SubmitAnswers,
           meta: {auth: true}
         },
         {
@@ -97,8 +99,20 @@ var router = new Router({
           meta: {auth: true}
         },
         {
-          path: '/admin/uploaded',
+          path: '/admin/papers/correct',
           component: Uploaded,
+          meta: {auth: true},
+          beforeEnter: (to, from, next) => {
+            if (Vue.hasAdminPerm()) {
+              next()
+            } else {
+              next('/error')
+            }
+          }
+        },
+        {
+          path: '/admin/papers/correct/upload',
+          component: UploadCorrected,
           meta: {auth: true},
           beforeEnter: (to, from, next) => {
             if (Vue.hasAdminPerm()) {
@@ -160,7 +174,6 @@ var router = new Router({
             }
           }
         },
-
         {
           path: '/admin/users',
           component: Users,

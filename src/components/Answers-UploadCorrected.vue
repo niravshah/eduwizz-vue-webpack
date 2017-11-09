@@ -1,47 +1,55 @@
 <template>
   <div>
-    <h3><i class="fa fa-angle-right"></i> Upload Answer Sheet</h3>
     <div class="row">
       <div class="col-md-12">
-        <div v-if="pageErrors.length != 0" class="alert alert-danger" role="alert">
-          <p v-for="e in pageErrors">{{e}}</p>
-        </div>
-
+        <h3><i class="fa fa-angle-right"></i> Upload Corrected Answer Sheets</h3>
       </div>
     </div>
-    <div class="row mt">
-      <div class="col-md-12">
-        <h4>1. Enter Question Paper Id</h4>
-        <input id="qid" name="qid" v-model="qid" type="text" autofocus>
-      </div>
-    </div>
-    <div class="row mt">
-      <div class="col-md-12">
-        <h4>2. Select Answer Sheets</h4>
-        <div v-bind:disabled="!isQidValid" class="btn btn-theme file-preview-input"><span
-          class="glyphicon glyphicon-folder-open"></span> <span
-          class="file-preview-input-title">Browse</span>
-          <input type="file" name="input-file-preview"
-                 v-on:change="getSignedUrl($event.target.files)"
-                 multiple accept="image/*"/>
-        </div>
-      </div>
-    </div>
-    <div class="row mt">
-      <div class="col-md-12">
-        <h4>3. Preview</h4>
-        <div id="previewPane"></div>
-      </div>
-    </div>
-    <div class="row mt">
-      <div class="col-md-12">
-        <h4>4. Upload</h4>
-        <div v-bind:disabled="!isOkToSend" class="btn btn-theme"
-             style="width: 150px" data-toggle="modal" data-target="#myModal" data-backdrop="static"
-             data-keyboard="false"><i
-          class="fa fa-cloud-upload"></i> Upload
-        </div>
-        <span id="saveSpinner"></span>
+    <div class="row">
+      <div class="form-panel">
+        <form class="form-horizontal style-form" novalidate>
+          <div class="form-group">
+            <label class="col-sm-2 col-sm-2 control-label">Question Paper Id</label>
+            <div class="col-sm-6">
+              <input disabled=true name="questionPaperId" v-model="paper.questionPaperId" type="text" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 col-sm-2 control-label">Student Id</label>
+            <div class="col-sm-6">
+              <input disabled=true name="sid" v-model="paper.sid" type="text" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 col-sm-2 control-label">Submitted Answers</label>
+            <div class="col-sm-6">
+              <p v-for="k in paper.keys"><a v-bind:href="'#/downloads?key='+k">Link</a></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 col-sm-2 control-label">Upload Corrected Answers</label>
+            <div class="col-sm-6">
+              <div class="btn btn-theme file-preview-input"><span
+                class="glyphicon glyphicon-folder-open"></span> <span
+                class="file-preview-input-title">Browse</span>
+                <input type="file" name="input-file-preview"
+                       v-on:change="getSignedUrl($event.target.files)"
+                       multiple accept="image/*"/>
+              </div>
+              <div id="previewPane"></div>
+            </div>
+          </div>
+          <div class="row mt text-right">
+            <div class="col-md-12">
+              <div v-bind:disabled="!isOkToSend" class="btn btn-theme"
+                   style="width: 150px" data-toggle="modal" data-target="#myModal" data-backdrop="static"
+                   data-keyboard="false"><i
+                class="fa fa-cloud-upload"></i> Upload
+              </div>
+              <span id="saveSpinner"></span>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
     <!-- Upload Modal START-->
@@ -91,49 +99,55 @@
       </div>
     </div>
     <!-- Upload Modal END-->
+
   </div>
+
 </template>
 <script>
   import axios from 'axios'
   import Vue from 'vue'
-
   export default {
-    name: 'Upload',
+    name: 'UploadCorrected',
     data: function () {
       return {
-        signedUrl: '',
+        loggedInUser: '',
+        paper: '',
         files: [],
-        qid: '',
-        sid: '',
         okToSend: true,
         pageErrors: [],
         uploadErrors: [],
-        accentColor: '#FF4081',
         uploading: false,
         totalToUpload: 100,
-        completedUpload: 0,
-        loggedInUser: '',
-        uploadedKeys: []
+        completedUpload: 0
       }
     },
     computed: {
-      isQidValid: function () {
-        return this.qid !== ''
+      qid: function () {
+        return this.$route.query.qid
+      },
+      sid: function () {
+        return this.$route.query.sid
       },
       isOkToSend: function () {
-        return this.okToSend && this.files.length !== 0
+        return this.files.length !== 0
       }
     },
     created: function () {
       this.loggedInUser = JSON.parse(Vue.loggedInUser())
-      this.sid = this.loggedInUser.sid
+
+      var url = '/api/paper/' + this.qid + '/' + this.sid
+      axios.get(url).then(res => {
+        this.paper = res.data.paper
+      }).catch(err => {
+        console.log(err)
+      })
     },
     methods: {
       getSignedUrl: function (files) {
         var _this = this
         for (var i = 0; i < files.length; i++) {
           const file = files[i]
-          const key = this.loggedInUser.sid + '_' + this.qid + '_' + this.files.length + '_' + file.name
+          const key = this.sid + '_' + this.qid + '_c_' + this.loggedInUser.sid + '_' + this.files.length + '_' + file.name
           const url = '/api/aws/sign/put?name=' + key + '&type=' + file.type
           this.okToSend = false
           axios.get(url).then(res => {
@@ -230,7 +244,7 @@
           axios.put(signedUrl, data, config).then(resp => {
             _this.uploadedKeys.push(currentKey)
             if (currentCounter === totalFiles - 1) {
-              var keyUrl = '/api/keys/' + this.qid + '/' + this.sid
+              var keyUrl = '/api/keys/' + this.qid + '/' + this.sid + '/answers'
               axios.patch(keyUrl, {keys: _this.uploadedKeys, status: 'NEW'})
                 .then(resp => {
                   // console.log('Key Update Response', resp)
@@ -261,14 +275,6 @@
     margin: 20px 20px;
   }
 
-  #qid {
-    width: 300px;
-    height: 30pt;
-    border-radius: 4px;
-    font-size: 24px;
-    text-align: center;
-  }
-
   .file-preview-input {
     position: relative;
     overflow: hidden;
@@ -295,16 +301,4 @@
     margin-left: 2px;
   }
 
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity 2s
-  }
-
-  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
-  {
-    opacity: 0
-  }
-
-  .progress-bar-rb {
-    background-color: #303F9F;
-  }
 </style>

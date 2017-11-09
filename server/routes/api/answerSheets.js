@@ -3,7 +3,7 @@ const router = express.Router()
 const AnswerKeys = require('../../models/answerSheets')
 
 module.exports = function (passport) {
-  router.patch('/api/keys/:qid/:sid', (req, res) => {
+  router.patch('/api/keys//api/keys/:qid/:sid', (req, res) => {
     AnswerKeys.findOneAndUpdate({
       sid: req.params.sid,
       questionPaperId: req.params.qid
@@ -20,7 +20,7 @@ module.exports = function (passport) {
     })
   })
 
-  router.get('/api/answers/to-correct', (req, res) => {
+  router.get('/api/papers/status/new', (req, res) => {
     AnswerKeys.find({status: 'NEW'}, function (err, answers) {
       if (err) {
         res.status(500).json({messaged: 'Error. ' + err.message})
@@ -33,6 +33,24 @@ module.exports = function (passport) {
       }
     })
   })
+
+  router.get('/api/paper/:qid/:sid', (req, res) => {
+    AnswerKeys.findOne({
+      sid: req.params.sid,
+      questionPaperId: req.params.qid
+    }, function (err, paper) {
+      if (err) {
+        res.status(500).json({message: 'Error while locating paper'})
+      } else {
+        if (paper) {
+          res.json({paper: paper})
+        } else {
+          res.status(500).json({message: 'Paper not found'})
+        }
+      }
+    })
+  })
+
 
   router.get('/api/answers/:sid', (req, res) => {
     AnswerKeys.find({sid: req.params.sid}, function (err, answers) {
