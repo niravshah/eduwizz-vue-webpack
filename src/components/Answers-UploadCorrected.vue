@@ -11,7 +11,8 @@
           <div class="form-group">
             <label class="col-sm-2 col-sm-2 control-label">Question Paper Id</label>
             <div class="col-sm-6">
-              <input disabled=true name="questionPaperId" v-model="paper.questionPaperId" type="text" class="form-control">
+              <input disabled=true name="questionPaperId" v-model="paper.questionPaperId" type="text"
+                     class="form-control">
             </div>
           </div>
           <div class="form-group">
@@ -245,7 +246,7 @@
             _this.uploadedKeys.push(currentKey)
             if (currentCounter === totalFiles - 1) {
               var keyUrl = '/api/keys/' + this.qid + '/' + this.sid + '/answers'
-              axios.patch(keyUrl, {keys: _this.uploadedKeys, status: 'NEW'})
+              axios.patch(keyUrl, {correctedKeys: _this.uploadedKeys, status: 'CORRECTED'})
                 .then(resp => {
                   // console.log('Key Update Response', resp)
                 })
@@ -259,9 +260,9 @@
         }
       },
       closeBtnClick: function () {
-        // if (this.completedUpload >= this.totalToUpload) {
-        this.$router.push('/')
-        // }
+        if (this.completedUpload >= this.totalToUpload) {
+          this.$router.push('/')
+        }
       }
     }
   }

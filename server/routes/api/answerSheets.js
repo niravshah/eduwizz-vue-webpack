@@ -3,7 +3,24 @@ const router = express.Router()
 const AnswerKeys = require('../../models/answerSheets')
 
 module.exports = function (passport) {
-  router.patch('/api/keys//api/keys/:qid/:sid', (req, res) => {
+  router.patch('/api/keys/:qid/:sid', (req, res) => {
+    AnswerKeys.findOneAndUpdate({
+      sid: req.params.sid,
+      questionPaperId: req.params.qid
+    }, req.body, {upsert: true, new: true}, function (err, keys) {
+      if (err) {
+        res.status(500).json({message: 'Error updating answer keys'})
+      } else {
+        if (keys) {
+          res.json({keys: keys})
+        } else {
+          res.status(500).json({message: 'Keys not found'})
+        }
+      }
+    })
+  })
+
+  router.patch('/api/keys/:qid/:sid/answers', (req, res) => {
     AnswerKeys.findOneAndUpdate({
       sid: req.params.sid,
       questionPaperId: req.params.qid
